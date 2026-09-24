@@ -17,7 +17,15 @@
  */
 window.OHARA_CONFIG = {
   appUrl: "https://tetrascope.github.io/app/",
-  firebase: null
+  // Firebase project tetrascope-6868e (web app config; not a secret - the key
+  // is restricted to this site's domains in the Google Cloud console)
+  firebase: {
+    apiKey: "AIzaSyDQtULvzmot-PuIjmW-4iw9jGhLhkbp6Qs",
+    authDomain: "tetrascope-6868e.firebaseapp.com",
+    projectId: "tetrascope-6868e",
+    appId: "1:661421492648:web:13f7fd69a9c2d12139f59d"
+  }
+  // template:
   // firebase: {
   //   apiKey: "AIza...",
   //   authDomain: "your-project.firebaseapp.com",

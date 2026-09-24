@@ -201,12 +201,22 @@ async function projected(page) {
     assert(/^.*: 3 plotted$/.test(rep.trim()), "template import: " + rep);
   });
 
-  await test("sign-in stays hidden and loads nothing when not configured", async (page) => {
+  await test("sign-in stays hidden and loads nothing when not configured", async (page, context) => {
+    await context.route("**/config.js", (route) => route.fulfill({
+      contentType: "text/javascript", body: "window.OHARA_CONFIG = {appUrl: null, firebase: null};"}));
     const requested = [];
     page.on("request", (r) => requested.push(r.url()));
     await ready(page);
     assert(await page.locator("#btnAccount").isHidden(), "sign-in button shown without config");
     assert(!requested.some((u) => /firebase|googleapis|gstatic/.test(u)), "Google/Firebase requested: " + requested.filter((u) => /firebase|google/.test(u)));
+  });
+
+  await test("the deployed config shows the sign-in button without loading Google code", async (page) => {
+    const requested = [];
+    page.on("request", (r) => requested.push(r.url()));
+    await ready(page);
+    assert(await page.locator("#btnAccount").isVisible(), "sign-in button hidden with the real config");
+    assert(!requested.some((u) => /firebase|googleapis|gstatic/.test(u)), "Google code loaded before sign-in");
   });
 
   await test("sign-in button appears when configured and loads the pinned SDK on click", async (page, context, errors) => {
