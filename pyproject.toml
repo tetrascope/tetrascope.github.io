@@ -8,6 +8,7 @@ version = "0.3.0"
 description = "O'Hara (1968) CMAS and Yoder & Tilley (1962) basalt-tetrahedron projections"
 readme = "README.md"
 license = {text = "MIT"}
+authors = [{name = "Kishan Tiwari"}]
 requires-python = ">=3.9"
 dependencies = ["numpy>=1.20"]
 

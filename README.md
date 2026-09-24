@@ -4,6 +4,8 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22930791.svg)](https://doi.org/10.5281/zenodo.22930791)
 
+Created by [Kishan Tiwari](https://kishangeo.github.io/) ([ORCID 0000-0003-0014-914X](https://orcid.org/0000-0003-0014-914X)).
+
 An interactive, reproducible implementation of O'Hara's (1968) projection scheme
 for the basalt tetrahedron, replacing manual graphical construction.
 
@@ -433,7 +435,7 @@ run `python tools/build_definitions.py` and commit the regenerated
 Please cite the original sources of the method (O'Hara 1968; Yoder & Tilley
 1962) and this implementation:
 
-> TetraScope (2026). TetraScope: O'Hara projection workbench (version 0.3.0)
+> Tiwari, K. (2026). TetraScope: O'Hara projection workbench (version 0.3.0)
 > [Software]. Zenodo. <https://doi.org/10.5281/zenodo.22930792>
 
 To cite all versions, use the concept DOI

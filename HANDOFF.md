@@ -283,10 +283,12 @@ app falls back from pop-up to redirect when pop-ups are blocked.
   **For the next release:** bump the version in the four places listed in §2,
   tag `v*`, wait for Zenodo to mint the new DOI, then update `doi:` in
   `CITATION.cff`, `TOOL_DOI` in `app/ui.js` and the README citation.
-- The Zenodo record for v0.3.0 lists the creator as `tetrascope` (the GitHub
-  account). Future versions take their authors from `CITATION.cff`; add
-  personal names and ORCIDs there if wanted, and edit the v0.3.0 record on
-  Zenodo by hand.
+- **Author:** Kishan Tiwari (ORCID 0000-0003-0014-914X, <https://kishangeo.github.io/>)
+  in `CITATION.cff`, `pyproject.toml`, `package.json`, `LICENSE`, the in-app
+  citation and BibTeX, and the "Created by" credit in the app footer, the
+  manual and the README. Future Zenodo versions take their authors from
+  `CITATION.cff`. The v0.3.0 record still lists `tetrascope` (the GitHub
+  account) until it is edited on Zenodo by hand.
 - `KP` and `1840b2` analyses are transcribed but not located in the digitised
   figures.
 

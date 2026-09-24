@@ -1,6 +1,7 @@
 {
   "name": "ohara-projection-workbench",
   "version": "0.3.0",
+  "author": "Kishan Tiwari (https://kishangeo.github.io/)",
   "private": true,
   "description": "Browser end-to-end tests for the O'Hara projection workbench",
   "scripts": {
