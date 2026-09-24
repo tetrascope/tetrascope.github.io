@@ -914,7 +914,10 @@ function showDoc(name) {
 }
 document.querySelectorAll("[data-doc]").forEach(function (b) { b.addEventListener("click", function () { showDoc(b.dataset.doc); }); });
 var TODAY = new Date().toISOString().slice(0, 10);
-var TOOL_CITE = "O'Hara projection workbench (2026). Interactive implementation of O'Hara's (1968) CMAS projections and the Yoder & Tilley (1962) basalt tetrahedron, version 0.2.0. Accessed " + TODAY + ".";
+// keep TOOL_VERSION equal to pyproject.toml (tools/build_definitions.py checks it);
+// TOOL_DOI is the Zenodo DOI of that version (the all-versions DOI is in index.html)
+var TOOL_VERSION = "0.3.0", TOOL_DOI = "10.5281/zenodo.22930792";
+var TOOL_CITE = "TetraScope (2026). TetraScope: O'Hara projection workbench (version " + TOOL_VERSION + ") [Software]. Zenodo. https://doi.org/" + TOOL_DOI;
 $("citeTool").textContent = TOOL_CITE;
 $("copyCite").addEventListener("click", function () {
   copyText("O'Hara, M. J. (1968). The bearing of phase equilibria studies in synthetic and natural systems on the origin and evolution of basic and ultrabasic rocks. Earth-Science Reviews, 4, 69-133.\n"
@@ -923,7 +926,8 @@ $("copyCite").addEventListener("click", function () {
 $("copyBib").addEventListener("click", function () {
   copyText("@article{OHara1968,\n  author = {O'Hara, M. J.},\n  title = {The bearing of phase equilibria studies in synthetic and natural systems on the origin and evolution of basic and ultrabasic rocks},\n  journal = {Earth-Science Reviews}, volume = {4}, pages = {69--133}, year = {1968}\n}\n"
     + "@article{YoderTilley1962,\n  author = {Yoder, H. S. and Tilley, C. E.},\n  title = {Origin of basalt magmas: an experimental study of natural and synthetic rock systems},\n  journal = {Journal of Petrology}, volume = {3}, pages = {342--532}, year = {1962}\n}\n"
-    + "@misc{OHaraWorkbench,\n  title = {O'Hara projection workbench, version 0.2.0},\n  note = {Accessed " + TODAY + "}, year = {2026}\n}\n");
+    + "@software{TetraScope,\n  author = {{TetraScope}},\n  title = {TetraScope: O'Hara projection workbench},\n  version = {" + TOOL_VERSION + "},\n"
+    + "  publisher = {Zenodo}, year = {2026},\n  doi = {" + TOOL_DOI + "},\n  url = {https://doi.org/" + TOOL_DOI + "}\n}\n");
 });
 $("privacyCloud").textContent = (cloudOn ? "Google sign-in is available on this site. " : "Google sign-in is not set up on this site. ") + (CONFIG.firebase
   ? "This deployment sends feedback to a cloud database (project " + CONFIG.firebase.projectId + ")."

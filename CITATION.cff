@@ -1,0 +1,61 @@
+cff-version: 1.2.0
+message: >-
+  If you use TetraScope, please cite this software and the original sources
+  of the method: O'Hara (1968) and Yoder & Tilley (1962).
+type: software
+title: "TetraScope: O'Hara projection workbench"
+abstract: >-
+  An interactive, validated implementation of O'Hara's (1968) CMAS projection
+  scheme and Yoder & Tilley's (1962) basalt tetrahedron Di-Ol-Ne-Qz. It
+  reduces an analysis to CMAS components and a CIPW norm, locates it relative
+  to the dividing planes, and projects it from any phase onto any plane or
+  join. Runs in the browser, offline, or from Python.
+authors:
+  - name: TetraScope
+version: 0.3.0
+date-released: 2026-09-24
+doi: 10.5281/zenodo.22930792
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.22930791
+    description: All versions (resolves to the latest release)
+  - type: doi
+    value: 10.5281/zenodo.22930792
+    description: Version 0.3.0
+repository-code: https://github.com/tetrascope/tetrascope.github.io
+url: https://tetrascope.github.io/app/
+license: MIT
+keywords:
+  - petrology
+  - basalt tetrahedron
+  - CMAS
+  - O'Hara projection
+  - CIPW norm
+  - phase equilibria
+references:
+  - type: article
+    authors:
+      - family-names: O'Hara
+        given-names: M. J.
+    title: >-
+      The bearing of phase equilibria studies in synthetic and natural systems
+      on the origin and evolution of basic and ultrabasic rocks
+    journal: Earth-Science Reviews
+    volume: 4
+    start: 69
+    end: 133
+    year: 1968
+  - type: article
+    authors:
+      - family-names: Yoder
+        given-names: H. S.
+      - family-names: Tilley
+        given-names: C. E.
+    title: >-
+      Origin of basalt magmas: an experimental study of natural and synthetic
+      rock systems
+    journal: Journal of Petrology
+    volume: 3
+    start: 342
+    end: 532
+    year: 1962

@@ -5,8 +5,8 @@ Written 2026-09-24. Everything needed to pick this up cold.
 **The site is live: <https://tetrascope.github.io/app/>** — GitHub Pages,
 deployed from `main` on every push; CI runs the full test suite on every push.
 
-**One open blocker:** Google sign-in is configured but cannot complete until
-the Firebase API key allows the Firebase auth domain — see section 8.1.
+**Google sign-in works** as of 2026-09-24 (reported by the owner after the
+API-key referrer fix in section 8.1).
 
 ---
 
@@ -38,14 +38,15 @@ norms, and against points digitised from O'Hara's own figures (section 6).
 
 | | |
 | --- | --- |
-| Version | **0.3.0** (`pyproject.toml`, `package.json`) — no tagged release yet |
+| Version | **0.3.0** (`pyproject.toml`, `package.json`, `CITATION.cff`, `TOOL_VERSION` in `app/ui.js`; the build refuses a mismatch) — tagged `v0.3.0` |
+| DOI | Zenodo [10.5281/zenodo.22930792](https://doi.org/10.5281/zenodo.22930792) (v0.3.0); all versions [10.5281/zenodo.22930791](https://doi.org/10.5281/zenodo.22930791) |
 | Tests | **10 suites, all passing** (`python run_tests.py`), incl. 13 Chromium workflows |
 | CI | GitHub Actions: Python 3.9–3.13 × Node 18/20/22, Linux + Windows, e2e, wheel install — green on `408ed38` |
 | Deployment | GitHub Pages, "deploy from branch" `main` / root — green on `408ed38` |
 | Engines | Python package `ohara/` and browser engine `app/ohara.js`, identical on 848 cases × 15 projections |
 | Validation | 44 points from O'Hara's Figs 4A, 4C, 5, 9, 10, 11 within 0.53 wt% (11 natural basalts within 0.25) |
 | Offline | PWA with a content-hashed service-worker cache; tested offline in Chromium |
-| Sign-in | Google via Firebase project `tetrascope-6868e`; button live; **blocked by API-key referrer restriction** |
+| Sign-in | Google via Firebase project `tetrascope-6868e`; working (owner, 2026-09-24) |
 | Firestore | Database created, `firestore.rules` published; anonymous access correctly denied (checked) |
 | Search Console | Verification file `google1cbffc9e9dc2cd06.html` at the site root (uploaded by the owner) |
 | Third-party code | qrcodejs 1.0.0, Firebase JS SDK 12.19.0 (app + auth compat) — bundled, SHA-512-pinned |
@@ -228,7 +229,11 @@ project would share them with no code change.
 
 ## 8. What is still open
 
-### 8.1 BLOCKER — Google sign-in: API key referrer restriction
+### 8.1 RESOLVED — Google sign-in: API key referrer restriction
+
+Resolved 2026-09-24: the owner added the Firebase auth domain to the key and
+reports that sign-in works. Kept below for reference, in case a future key
+change breaks it again.
 
 Clicking Sign in reaches Firebase's handler at
 `tetrascope-6868e.firebaseapp.com/__/auth/handler`, which shows
@@ -271,9 +276,17 @@ app falls back from pop-up to redirect when pop-ups are blocked.
   are attributed to their arithmetic; not further explained.
 
 ### 8.3 Project
-- No tagged release / DOI yet (RockMin ID uses Zenodo on GitHub Releases; the
-  CI already builds and attaches the wheel for `v*` tags).
-- No `CITATION.cff`; the manual's "How to cite" gives a generic citation.
+- **Released:** `v0.3.0` is archived on Zenodo as
+  [10.5281/zenodo.22930792](https://doi.org/10.5281/zenodo.22930792). The
+  concept DOI 10.5281/zenodo.22930791 always resolves to the latest version.
+  `CITATION.cff`, the README and the in-app "How to cite" all carry the DOI.
+  **For the next release:** bump the version in the four places listed in §2,
+  tag `v*`, wait for Zenodo to mint the new DOI, then update `doi:` in
+  `CITATION.cff`, `TOOL_DOI` in `app/ui.js` and the README citation.
+- The Zenodo record for v0.3.0 lists the creator as `tetrascope` (the GitHub
+  account). Future versions take their authors from `CITATION.cff`; add
+  personal names and ORCIDs there if wanted, and edit the v0.3.0 record on
+  Zenodo by hand.
 - `KP` and `1840b2` analyses are transcribed but not located in the digitised
   figures.
 

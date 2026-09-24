@@ -108,6 +108,20 @@ def app_version():
         return re.search(r'^version\s*=\s*"([^"]+)"', fh.read(), re.M).group(1)
 
 
+def version_mismatches():
+    """Files that state the release version but disagree with pyproject.toml
+    (they are hand-edited, so a stale one would mis-cite the release)."""
+    v, bad = app_version(), []
+    for rel, pattern in (("package.json", r'"version":\s*"([^"]+)"'),
+                         ("CITATION.cff", r'^version:\s*(\S+)'),
+                         ("app/ui.js", r'TOOL_VERSION = "([^"]+)"')):
+        with open(os.path.join(ROOT, rel), encoding="utf-8") as fh:
+            m = re.search(pattern, fh.read(), re.M)
+        if not m or m.group(1) != v:
+            bad.append("%s (%s)" % (rel, m.group(1) if m else "missing"))
+    return bad
+
+
 def shell_files(generated):
     """Every file the page needs offline, as paths relative to app/.
     `generated` maps relative paths to content not yet written to disk."""
@@ -144,6 +158,11 @@ def render_sw(generated):
 
 def main(argv):
     check = "--check" in argv
+    bad = version_mismatches()
+    if bad:
+        print("VERSION MISMATCH: pyproject.toml says %s, but %s"
+              % (app_version(), ", ".join(bad)))
+        return 1
     stale = []
     defs, data = render(), render_datasets()
     sw = render_sw({"definitions.js": defs, "datasets.js": data})

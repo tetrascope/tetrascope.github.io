@@ -2,7 +2,7 @@
  * GENERATED from tools/sw.template.js by tools/build_definitions.py - do not
  * edit app/sw.js by hand. The cache name embeds the package version and a hash
  * of every cached file, so any change to the app invalidates old caches. */
-const CACHE = 'ohara-workbench-0.3.0-987037de60b7';
+const CACHE = 'ohara-workbench-0.3.0-7c138ab75ccf';
 const SHELL = [
   "./",
   "./cloud.js",

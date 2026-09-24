@@ -2,6 +2,8 @@
 
 **O'Hara projection workbench** - live at <https://tetrascope.github.io/app/>
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22930791.svg)](https://doi.org/10.5281/zenodo.22930791)
+
 An interactive, reproducible implementation of O'Hara's (1968) projection scheme
 for the basalt tetrahedron, replacing manual graphical construction.
 
@@ -425,6 +427,28 @@ The site is served by GitHub Pages from the root of this repository; the root
 are the site. After changing `ohara/data/definitions.json` or `data/*.csv`,
 run `python tools/build_definitions.py` and commit the regenerated
 `app/definitions.js`, `app/datasets.js` and `app/sw.js` (CI fails otherwise).
+
+## How to cite
+
+Please cite the original sources of the method (O'Hara 1968; Yoder & Tilley
+1962) and this implementation:
+
+> TetraScope (2026). TetraScope: O'Hara projection workbench (version 0.3.0)
+> [Software]. Zenodo. <https://doi.org/10.5281/zenodo.22930792>
+
+To cite all versions, use the concept DOI
+[10.5281/zenodo.22930791](https://doi.org/10.5281/zenodo.22930791), which
+always resolves to the latest release. `CITATION.cff` has the same data in
+machine-readable form, and GitHub turns it into the "Cite this repository"
+button.
+
+Each `v*` tag becomes a GitHub release (CI attaches the wheel), and Zenodo
+archives it with a new version DOI. Zenodo takes the metadata from
+`CITATION.cff`. When you bump the version, update it in `pyproject.toml`,
+`package.json`, `CITATION.cff` and `TOOL_VERSION` in `app/ui.js`;
+`tools/build_definitions.py` refuses to run while they disagree. After Zenodo
+mints the new DOI, put it in `CITATION.cff` (`doi`), `TOOL_DOI` in `app/ui.js`
+and the citation above.
 
 ## Licence
 
