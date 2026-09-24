@@ -1,0 +1,37 @@
+{
+ "dataset": "data/tilley_yoder_1963_1964_analyses.csv",
+ "per_value_provenance": "data/tilley_yoder_1963_1964_analyses.provenance.csv",
+ "sources": [
+  {
+   "citation": "Tilley, C. E., Yoder, H. S. Jr. & Schairer, J. F. (1963). Melting relations of basalts. Carnegie Institution of Washington Year Book 62, 77-84.",
+   "table": "Table 3, 'Chemical Analyses and Norms of Investigated Rocks', p. 79 (columns 1-4)",
+   "copy": "https://archive.org/details/yearbookcarne62196263carn (PDF page index 150)"
+  },
+  {
+   "citation": "Tilley, C. E., Yoder, H. S. Jr. & Schairer, J. F. (1964). New relations on melting of basalts. Carnegie Institution of Washington Year Book 63, 92-97.",
+   "table": "Table 1, 'Chemical Analyses and Norms of Investigated Rocks', p. 93 (columns MK, ML 1935, E1, E2)",
+   "copy": "https://archive.org/details/yearbookcarne63196364carn (PDF page index 190)"
+  }
+ ],
+ "label_mapping": {
+  "basis": "O'Hara (1968), key to Fig. 4 (printed p. 87), which assigns the labels 1921, PB (after Tilley & Yoder 1964, Tilley et al. 1963) and E1, E2, KA, ML, ML 87, MK, 1955/77, 1955/82, KO, KP, 1840b2 (after Tilley et al. 1963, 1964).",
+  "1921": "Yoder & Tilley (1962) Table 2 no. 14: Tilley & Yoder (1964), Year Book 63 p. 115 Table 4 col. 2, reproduces that analysis for the 1921 olivine tholeiite",
+  "ML 87": "Yoder & Tilley (1962) Table 2 no. 5 (Mauna Loa 1887): Tilley et al. (1963) footnote 3 lists Y&T Table 2 analyses 3, 5, 7, 7a, 14, 16 as the Hawaiian rocks studied",
+  "KP": "Yoder & Tilley (1962) Table 2 no. 7 (prehistoric Kilauea), by the same footnote; not found plotted in the digitised figures",
+  "1840b2": "Year Book 62 Table 3 col. 3: Year Book 63 p. 115 names col. 2 as 1840b1, and cols 2-3 are the only upper-vent 1840 lavas; not found plotted in the digitised figures",
+  "PB, KA, MK, ML, E1, E2": "labelled directly in the source tables"
+ },
+ "not_available": {
+  "1955/77, 1955/82": "Tilley (1960), Geological Magazine - not openly accessible",
+  "KO": "Wentworth & Winchell (1947) per Tilley et al. (1963), who call Ko the Koolau basalt, whereas O'Hara's key calls KO a Kilauea olivine basalt: ambiguous, and not openly accessible",
+  "AL', OB', P', II, III, IV, OT', QT, BA, A": "Green & Ringwood (1966, 1967a), Green et al. (1967): behind publisher paywalls",
+  "AV, IK, NM5'": "Ito & Kennedy (1967), Cohen et al. (1967): not accessible",
+  "A3, 50, 75 and the nodules and models of Figs 9-11": "O'Hara & Yoder (1967), O'Hara & Mercy (1963), Nixon et al. (1963), Holmes (1936), pyrolite papers: not accessible"
+ },
+ "transcription": {
+  "date": "2026-09-23",
+  "by": "Claude (AI assistant), for K. Tiwari",
+  "method": "archive.org PDF pages rendered at 200 dpi with PyMuPDF and read from the images",
+  "verification": "every analysis reproduces its printed total and every norm its printed norm total (tests/test_published.py)"
+ }
+}

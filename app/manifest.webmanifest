@@ -1,0 +1,13 @@
+{
+  "name": "TetraScope — O'Hara projection workbench",
+  "short_name": "TetraScope",
+  "description": "Basalt tetrahedron and CMAS projections after Yoder & Tilley (1962) and O'Hara (1968).",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#17181a",
+  "theme_color": "#1f2124",
+  "icons": [
+    { "src": "tetrascope-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

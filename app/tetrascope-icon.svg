@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">TetraScope</title>
+  <desc id="desc">A tetrahedral composition diagram with a projected sample point.</desc>
+  <rect width="512" height="512" rx="104" fill="#1f2124"/>
+  <!-- Tetrahedron: the three visible edges and an interior projection ray. -->
+  <path d="M256 72 430 384 82 384Z M256 72v196 M82 384l174-116 174 116" fill="none" stroke="#e9e7e2" stroke-width="22" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M256 72 306 286" fill="none" stroke="#7fb0e0" stroke-width="16" stroke-linecap="round" stroke-dasharray="22 18"/>
+  <circle cx="306" cy="286" r="34" fill="#d98b6a" stroke="#1f2124" stroke-width="12"/>
+  <circle cx="306" cy="286" r="10" fill="#fff7ef"/>
+</svg>

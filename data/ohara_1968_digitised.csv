@@ -1,0 +1,98 @@
+figure,page,pdf_page_index,projection,kind,label,x_px,y_px,c1,v1,c2,v2,composition,uncertainty_px,note,status
+4A,86,17,cmas_ol_CS_MS_A,tick,CS 50,397.5,1036,CS,50,A,0,,0.5,base scale; auto-detected tick,validate
+4A,86,17,cmas_ol_CS_MS_A,tick,CS 40,665.5,1036,CS,40,A,0,,0.5,,validate
+4A,86,17,cmas_ol_CS_MS_A,tick,CS 30,935.5,1036,CS,30,A,0,,0.5,,validate
+4A,86,17,cmas_ol_CS_MS_A,tick,CS 20,1203.0,1036,CS,20,A,0,,0.5,,validate
+4A,86,17,cmas_ol_CS_MS_A,tick,CS 10,1471.5,1036,CS,10,A,0,,0.5,,validate
+4A,86,17,cmas_ol_CS_MS_A,tick,A 10,1605.5,800.5,CS,0,A,10,,1.5,MS-A edge; read at 7x zoom,validate
+4A,86,17,cmas_ol_CS_MS_A,tick,A 20,1471.0,564.0,CS,0,A,20,,1.5,,validate
+4A,86,17,cmas_ol_CS_MS_A,tick,A 30,1336.5,330.0,CS,0,A,30,,1.5,,validate
+4A,86,17,cmas_ol_CS_MS_A,point,diopside,286.0,1035.5,,,,,diopside,1.5,apex of the arrow at the end of the plag-di-olivine divide,validate
+4A,86,17,cmas_ol_CS_MS_A,point,pyrope,1400.5,443.5,,,,,pyrope,2.0,tip of the PYROPE arrow on the MS-A edge,validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,tick,C2S3 10,1604,518.5,C2S3,10,A2S3,0,,0.5,M2S-C2S3 edge (vertical); auto-detected,validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,tick,C2S3 20,1604,819.5,C2S3,20,A2S3,0,,0.5,,validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,tick,C2S3 30,1604,1124.0,C2S3,30,A2S3,0,,0.5,,validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,tick,C2S3 40,1604,1424.0,C2S3,40,A2S3,0,,0.5,,validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,tick,C2S3 50,1604,1726.0,C2S3,50,A2S3,0,,0.5,,validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,tick,C2S3 60,1604,2024.5,C2S3,60,A2S3,0,,0.5,,validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,tick,C2S3 70,1604,2322.5,C2S3,70,A2S3,0,,0.5,,validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,tick,C2S3 80,1604,2617.5,C2S3,80,A2S3,0,,0.5,,validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,tick,A2S3 10,1343,371,C2S3,0,A2S3,10,,1.5,M2S-A2S3 edge; read at 5x zoom,validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,tick,A2S3 20,1083,520,C2S3,0,A2S3,20,,1.5,,validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,tick,A2S3 40,566,826,C2S3,0,A2S3,40,,1.5,,validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,tick,A2S3 50,304,977,C2S3,0,A2S3,50,,1.5,,validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,point,diopside,1604,2254,,,,,diopside,3.0,apex where the three divide lines meet the edge,validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,point,pyrope,371,940,,,,,pyrope,2.5,tip of the PYROPE arrow,validate
+9,108,39,cmas_ol_CS_MS_A,tick,CS 50,371.0,997,CS,50,A,0,,0.5,base scale (CaSiO3); auto-detected,validate
+9,108,39,cmas_ol_CS_MS_A,tick,CS 40,610.5,997,CS,40,A,0,,0.5,,validate
+9,108,39,cmas_ol_CS_MS_A,tick,CS 30,849.5,997,CS,30,A,0,,0.5,,validate
+9,108,39,cmas_ol_CS_MS_A,tick,CS 20,1088.5,997,CS,20,A,0,,0.5,,validate
+9,108,39,cmas_ol_CS_MS_A,tick,CS 10,1326.5,997,CS,10,A,0,,0.5,,validate
+9,108,39,cmas_ol_CS_MS_A,tick,A 10,1448,789.5,CS,0,A,10,,1.5,the only tick on the MgSiO3-Al2O3 edge,validate
+9,108,39,cmas_ol_CS_MS_A,point,diopside,286.5,996,,,,,diopside,1.5,apex of the V at DIOPSIDE,validate
+9,108,39,cmas_ol_CS_MS_A,point,pyrope,1262.5,467.5,,,,,pyrope,2.0,tip of the PYROPE arrow,validate
+9,108,39,cmas_ol_CS_MS_A,point,Di-Py 90,1167.5,524,,,,,Di10Py90,1.0,open circle '90' (wt% pyrope in the synthetic mixture),validate
+9,108,39,cmas_ol_CS_MS_A,point,Di-Py 80,1068.5,577,,,,,Di20Py80,1.0,,validate
+9,108,39,cmas_ol_CS_MS_A,point,Di-Py 70,970.5,628,,,,,Di30Py70,1.0,,validate
+9,108,39,cmas_ol_CS_MS_A,point,Di-Py 65,923.5,654.5,,,,,Di35Py65,1.5,circle partly overprinted by its label,validate
+9,108,39,cmas_ol_CS_MS_A,point,Di-Py 60,872,680,,,,,Di40Py60,1.0,,validate
+9,108,39,cmas_ol_CS_MS_A,point,Di-Py 55,826.5,705,,,,,Di45Py55,1.0,,validate
+9,108,39,cmas_ol_CS_MS_A,point,Di-Py 50,775.5,730,,,,,Di50Py50,1.0,,validate
+9,108,39,cmas_ol_CS_MS_A,point,Di-Py 40,674.5,782,,,,,Di60Py40,1.0,,validate
+9,108,39,cmas_ol_CS_MS_A,point,Di-Py 30,580.5,835,,,,,Di70Py30,1.0,,validate
+9,108,39,cmas_ol_CS_MS_A,point,Di-Py 20,480.5,888.5,,,,,Di80Py20,1.0,,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,tick,C2S3 20,1524,1083.0,C2S3,20,A2S3,0,,0.5,olivine-C2S3 edge (vertical; ticks labelled 2..6 = tens of wt%); auto-detected,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,tick,C2S3 30,1524,1386.0,C2S3,30,A2S3,0,,0.5,,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,tick,C2S3 40,1524,1685.5,C2S3,40,A2S3,0,,0.5,,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,tick,C2S3 50,1524,1989.0,C2S3,50,A2S3,0,,0.5,,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,tick,C2S3 60,1524,2284.5,C2S3,60,A2S3,0,,0.5,,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,tick,M2S 90,1259.5,631,C2S3,0,A2S3,10,,1.5,olivine-A2S3 edge (ticks labelled 9..7 = tens of wt% olivine); read at 6x zoom,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,tick,M2S 80,998.5,783,C2S3,0,A2S3,20,,1.5,,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,tick,M2S 70,739.5,934.5,C2S3,0,A2S3,30,,2.0,tick partly outside the zoom window,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,point,diopside,1523,2501,,,,,diopside,2.0,apex of the arrow at DIOPSIDE,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,point,pyrope,287.5,1200.5,,,,,pyrope,2.0,where the GARNETS join meets the olivine-A2S3 edge,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,point,Di-Py 90,411.5,1327.5,,,,,Di10Py90,2.0,circle half hidden by the garnet join,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,point,Di-Py 80,525,1464,,,,,Di20Py80,1.0,centre dot,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,point,Di-Py 70,656,1597.5,,,,,Di30Py70,1.0,,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,point,Di-Py 65,718.5,1661.5,,,,,Di35Py65,1.0,,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,point,Di-Py 60,784.5,1724.5,,,,,Di40Py60,1.0,,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,point,Di-Py 55,840.5,1790,,,,,Di45Py55,1.0,,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,point,Di-Py 50,906.5,1857,,,,,Di50Py50,1.0,,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,point,Di-Py 40,1027.5,1984.5,,,,,Di60Py40,1.0,,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,point,Di-Py 30,1153,2119,,,,,Di70Py30,1.0,,validate
+10,112,43,cmas_opx_M2S_C2S3_A2S3,point,Di-Py 20,1274,2241,,,,,Di80Py20,1.0,,validate
+4A,86,17,cmas_ol_CS_MS_A,point,E2,555.5,450.5,,,,,TYS:E2,1.5,natural rock; cross centre at 10x zoom,validate
+4A,86,17,cmas_ol_CS_MS_A,point,E1,627,481,,,,,TYS:E1,1.5,natural rock; cross centre at 10x zoom,validate
+4A,86,17,cmas_ol_CS_MS_A,point,MK,578,606,,,,,TYS:MK,1.5,natural rock; cross centre at 10x zoom,validate
+4A,86,17,cmas_ol_CS_MS_A,point,PB,747.5,590,,,,,TYS:PB,1.5,natural rock; cross centre at 10x zoom,validate
+4A,86,17,cmas_ol_CS_MS_A,point,ML,843,620,,,,,TYS:ML,1.5,natural rock; cross centre at 10x zoom,validate
+4A,86,17,cmas_ol_CS_MS_A,point,KA,879,623,,,,,TYS:KA,1.5,natural rock; cross centre at 10x zoom,validate
+4C,87,18,cmas_ol_CS_MS_A,tick,CS 50,403.5,973,CS,50,A,0,,0.5,base scale; auto-detected,validate
+4C,87,18,cmas_ol_CS_MS_A,tick,CS 40,671.5,973,CS,40,A,0,,0.5,,validate
+4C,87,18,cmas_ol_CS_MS_A,tick,CS 30,940.5,973,CS,30,A,0,,0.5,,validate
+4C,87,18,cmas_ol_CS_MS_A,tick,CS 20,1209.5,973,CS,20,A,0,,0.5,,validate
+4C,87,18,cmas_ol_CS_MS_A,tick,CS 10,1477.5,973,CS,10,A,0,,0.5,,validate
+4C,87,18,cmas_ol_CS_MS_A,tick,A 10,1611,738.5,CS,0,A,10,,1.5,MS-A edge; read at 6x zoom,validate
+4C,87,18,cmas_ol_CS_MS_A,tick,A 20,1477.5,502,CS,0,A,20,,1.5,,validate
+4C,87,18,cmas_ol_CS_MS_A,tick,A 30,1343,267,CS,0,A,30,,1.5,,validate
+4C,87,18,cmas_ol_CS_MS_A,point,pyrope,1411.5,380.5,,,,,pyrope,2.0,tip of the PYROPE arrow,validate
+4C,87,18,cmas_ol_CS_MS_A,point,PB,750.5,529,,,,,TYS:PB,1.0,"natural rock; filled dot, centroid",validate
+4C,87,18,cmas_ol_CS_MS_A,point,1921,707,516.5,,,,,YT1962:14,1.0,"natural rock; filled dot, centroid; 1921 = Y&T Table 2 no. 14 per Tilley & Yoder (1964) Table 4",validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,point,PB,947.5,1336,,,,,TYS:PB,1.0,natural rock; filled dot,validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,point,KA,848,1450,,,,,TYS:KA,1.5,natural rock; cross,validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,point,ML 87,683,1764.5,,,,,YT1962:5,1.5,natural rock; cross; Mauna Loa 1887 = Y&T Table 2 no. 5 per Tilley et al. (1963) footnote 3,validate
+5,88,19,cmas_opx_M2S_C2S3_A2S3,point,1921,731,1668.5,,,,,YT1962:14,1.0,"plotted 3.0 wt% from analysis 14 (the 1921 analysis O'Hara cites and uses in Fig. 4C) but within 0.11 wt% of Y&T Table 2 no. 12, another analysis of the Kilauea olivine tholeiite; O'Hara appears to have plotted a different 1921 analysis in this figure",discrepancy
+11,114,45,cmas_di_C3A_S_M,tick,SiO2 45,1219,424,C3A,0,S,45,,1.5,"olivine-enstatite edge (C3A = 0), labelled wt% SiO2; 6x zoom",validate
+11,114,45,cmas_di_C3A_S_M,tick,SiO2 50,988,559,C3A,0,S,50,,1.5,,validate
+11,114,45,cmas_di_C3A_S_M,tick,SiO2 55,757,699,C3A,0,S,55,,1.5,,validate
+11,114,45,cmas_di_C3A_S_M,tick,MgO 50 / C3A 10,1461,832.5,C3A,10,S,40,,0.5,"vertical scale printed with paired MgO and C3A labels summing to 60, i.e. the line SiO2 = 40 wt%; auto-detected",validate
+11,114,45,cmas_di_C3A_S_M,tick,MgO 45 / C3A 15,1461,1101,C3A,15,S,40,,0.5,,validate
+11,114,45,cmas_di_C3A_S_M,tick,MgO 40 / C3A 20,1461,1374,C3A,20,S,40,,0.5,,validate
+11,114,45,cmas_di_C3A_S_M,tick,MgO 35 / C3A 25,1461,1644.5,C3A,25,S,40,,0.5,,validate
+11,114,45,cmas_di_C3A_S_M,tick,MgO 30 / C3A 30,1461,1914.5,C3A,30,S,40,,0.5,,validate
+11,114,45,cmas_di_C3A_S_M,tick,MgO 25 / C3A 35,1461,2182,C3A,35,S,40,,0.5,,validate
+11,114,45,cmas_di_C3A_S_M,tick,MgO 20 / C3A 40,1461,2448.5,C3A,40,S,40,,0.5,,validate
+11,114,45,cmas_di_C3A_S_M,point,olivine,1331,357,,,,,forsterite,2.0,apex of the OLIVINE arrow,validate
+11,114,45,cmas_di_C3A_S_M,point,enstatite,535.5,830,,,,,enstatite,2.0,apex of the ENSTATITE arrow,validate
+11,114,45,cmas_di_C3A_S_M,point,anorthite,962,2624.5,,,,,anorthite,1.0,filled dot at ANORTHITE,validate
+11,114,45,cmas_di_C3A_S_M,point,Di-Py join,932.5,1991.5,,,,,pyrope,1.5,open circle marked 'All diopside-pyrope join': from diopside the whole join projects onto pyrope's point,validate

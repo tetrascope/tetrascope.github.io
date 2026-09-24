@@ -1,0 +1,48 @@
+{
+ "dataset": "data/ohara_1968_digitised.csv",
+ "source": {
+  "citation": "O'Hara, M. J. (1968). The bearing of phase equilibria studies in synthetic and natural systems on the origin and evolution of basic and ultrabasic rocks. Earth-Science Reviews 4, 69-133.",
+  "file": "1968_O'Hara_ESR_The bearing of phase equilibria studies in synthetic and natural systems.pdf",
+  "figures": {
+   "4A": "printed p. 86 (PDF page index 17), upper panel: projection from olivine into CS-MS-A",
+   "5": "printed p. 88 (index 19): projection from orthopyroxene into M2S-C2S3-A2S3",
+   "9": "printed p. 108 (index 39): weight-per-cent projection from olivine into CS-MS-A",
+   "10": "printed p. 112 (index 43): weight-per-cent projection from enstatite into M2S-C2S3-A2S3",
+   "4C": "printed p. 87 (PDF page index 18), panel C: projection from olivine into CS-MS-A",
+   "11": "printed p. 114 (index 45): projection from diopside into C3A-SiO2-MgO"
+  }
+ },
+ "digitisation": {
+  "date": "2026-09-23",
+  "by": "Claude (AI assistant), for K. Tiwari",
+  "raster": "each page rendered at 300 dpi with PyMuPDF; pixel coordinates refer to that raster (origin top-left)",
+  "ticks": "tick marks on horizontal or vertical axes located automatically as short strokes perpendicular to the axis (centre of the stroke); ticks on slanted axes read by eye at 5-7x zoom with a 1-px grid, at the junction of tick and axis line",
+  "points": "arrow symbols (DIOPSIDE, PYROPE) read at the arrow apex on the axis; open circles read at the centre dot (Fig. 10) or ring centre (Fig. 9) at 9x zoom; natural rocks: crosses read at the intersection of the strokes (10x zoom), filled dots located as the centroid of the solid blob and checked at 10x zoom",
+  "uncertainty": "per-point reading uncertainty in the uncertainty_px column; the tick-fit RMS measures the drafting precision of each figure's scales",
+  "calibration": "least-squares affine map fitted only to the printed ticks of the same figure; no engine output enters the calibration"
+ },
+ "compositions": {
+  "diopside": "CaMgSi2O6",
+  "pyrope": "Mg3Al2Si3O12",
+  "DiXPyY": "synthetic mixture of X wt% diopside and Y wt% pyrope (O'Hara & Yoder 1967, table 1, as labelled on Figs 9 and 10)",
+  "forsterite": "Mg2SiO4",
+  "enstatite": "MgSiO3",
+  "anorthite": "CaAl2Si2O8",
+  "YT1962:<no>": "analysis <no> of Yoder & Tilley (1962) Table 2 (data/yoder_tilley_1962_table2.csv)",
+  "TYS:<label>": "analysis labelled <label> in data/tilley_yoder_1963_1964_analyses.csv (Tilley, Yoder & Schairer 1963, 1964; label mapping in its provenance.json)"
+ },
+ "labels_read_as": {
+  "Fig 10 olivine-A2S3 edge": "ticks printed 9, 8, 7 = 90, 80, 70 wt% olivine (M2S)",
+  "Fig 10 olivine-C2S3 edge": "ticks printed 2..6 = 20..60 wt% C2S3",
+  "Fig 11 vertical scale": "ticks printed with paired labels 'Wt% MgO' and 'Wt% C3A' (50/10, 40/20, 30/30, 20/40 ...), i.e. MgO + C3A = 60, so the scale is the line SiO2 = 40 wt%",
+  "Fig 11 upper edge": "ticks printed 45, 50, 55 = wt% SiO2 on the olivine-enstatite (C3A = 0) edge"
+ },
+ "not_digitised": {
+  "Fig 4B": "same base and diopside template as 4A, and its natural points (Green & Ringwood) have no accessible analyses",
+  "natural rocks without accessible analyses": "see data/tilley_yoder_1963_1964_analyses.provenance.json, 'not_available'"
+ },
+ "status": {
+  "validate": "scored against the engine",
+  "discrepancy": "Fig. 5 '1921': plotted 3.0 wt% from analysis 14, the analysis of the 1921 lava named by the sources and the one that matches O'Hara's own Fig. 4C point (0.25 wt%); it lies within 0.11 wt% of Y&T Table 2 no. 12, another analysis of the Kilauea olivine tholeiite. Reported, not scored."
+ }
+}

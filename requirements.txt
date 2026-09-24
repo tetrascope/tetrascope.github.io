@@ -1,0 +1,4 @@
+# runtime
+numpy>=1.20
+# tests (optional; tests also run without pytest via: python run_tests.py)
+pytest>=7

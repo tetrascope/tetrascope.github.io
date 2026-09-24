@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ohara-projection"
+version = "0.3.0"
+description = "O'Hara (1968) CMAS and Yoder & Tilley (1962) basalt-tetrahedron projections"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.20"]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.scripts]
+ohara = "ohara.cli:main"
+
+[tool.setuptools]
+packages = ["ohara", "ohara.data"]
+
+[tool.setuptools.package-data]
+"ohara.data" = ["definitions.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

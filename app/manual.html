@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TetraScope manual</title>
+<meta name="description" content="User manual and scientific background: the basalt tetrahedron, O'Hara's CMAS projections, the CIPW norm, and how TetraScope computes and validates them.">
+<link rel="icon" href="tetrascope-icon.svg" type="image/svg+xml">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("ohara_theme_preference");
+      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
+<style>
+  :root{--bg:#f6f5f2;--panel:#fff;--ink:#1c1c1a;--muted:#5f5d57;--line:#d9d6ce;--accent:#8c4a2f;--accent2:#2f5d8c;--code:#efece5;color-scheme:light}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#17181a;--panel:#1f2124;--ink:#e9e7e2;--muted:#a6a39c;--line:#34373c;--accent:#d98b6a;--accent2:#7fb0e0;--code:#2a2d31;color-scheme:dark}}
+  :root[data-theme="dark"]{--bg:#17181a;--panel:#1f2124;--ink:#e9e7e2;--muted:#a6a39c;--line:#34373c;--accent:#d98b6a;--accent2:#7fb0e0;--code:#2a2d31;color-scheme:dark}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,"Times New Roman",serif}
+  a{color:var(--accent2)}
+  .top{position:sticky;top:0;background:var(--panel);border-bottom:1px solid var(--line);padding:10px 16px;
+       display:flex;gap:12px;align-items:center;font:14px "Segoe UI",system-ui,sans-serif;z-index:5}
+  .top img{width:28px;height:28px}
+  .top a{margin-left:auto}
+  .layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;max-width:1150px;margin:0 auto;padding:20px 16px 60px}
+  @media (max-width:880px){.layout{grid-template-columns:minmax(0,1fr)} nav.toc{position:static!important;max-height:none!important}}
+  nav.toc{position:sticky;top:64px;align-self:start;max-height:calc(100vh - 80px);overflow:auto;
+          font:13.5px/1.5 "Segoe UI",system-ui,sans-serif}
+  nav.toc ol{padding-left:18px;margin:0} nav.toc li{margin:3px 0} nav.toc a{color:var(--ink);text-decoration:none}
+  nav.toc a:hover{color:var(--accent)}
+  main{min-width:0}
+  h1{font:600 30px/1.2 "Segoe UI",system-ui,sans-serif;margin:6px 0 4px}
+  .sub{color:var(--muted);margin:0 0 22px;font-family:"Segoe UI",system-ui,sans-serif;font-size:14px}
+  h2{font:600 22px/1.3 "Segoe UI",system-ui,sans-serif;margin:40px 0 8px;padding-top:6px;border-top:1px solid var(--line)}
+  h3{font:600 17px/1.35 "Segoe UI",system-ui,sans-serif;margin:24px 0 6px}
+  p,li{max-width:72ch}
+  code,pre{font-family:ui-monospace,Consolas,monospace;font-size:13.5px}
+  code{background:var(--code);padding:1px 5px;border-radius:4px}
+  pre{background:var(--code);padding:12px 14px;border-radius:8px;overflow-x:auto;line-height:1.45}
+  table{border-collapse:collapse;font:14px/1.45 "Segoe UI",system-ui,sans-serif;margin:10px 0 16px;width:100%;max-width:760px}
+  th,td{border-bottom:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+  th{color:var(--muted);font-weight:600}
+  td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .tablewrap{overflow-x:auto}
+  .note{border-left:3px solid var(--accent);padding:6px 12px;background:var(--panel);margin:14px 0;max-width:72ch}
+  .fig{margin:16px 0;max-width:640px}
+  .fig svg{width:100%;height:auto;display:block;background:var(--panel);border:1px solid var(--line);border-radius:8px}
+  .fig figcaption{font:13px/1.45 "Segoe UI",system-ui,sans-serif;color:var(--muted);margin-top:6px}
+  dl dt{font-weight:bold;margin-top:10px} dl dd{margin:2px 0 0 0}
+  .refs li{margin-bottom:6px}
+  @media print{.top,nav.toc{display:none}.layout{display:block;padding:0}body{background:#fff;color:#000;font-size:11pt}h2{page-break-after:avoid}}
+</style>
+</head>
+<body>
+<div class="top">
+  <img src="tetrascope-icon.svg" alt="">
+  <b>TetraScope</b><span style="color:var(--muted)">manual &amp; scientific background</span>
+  <a href="index.html">&larr; back to the workbench</a>
+</div>
+
+<div class="layout">
+<nav class="toc" aria-label="Contents">
+  <ol>
+    <li><a href="#start">Quick start</a></li>
+    <li><a href="#why">Why a basalt tetrahedron?</a></li>
+    <li><a href="#planes">Dividing planes and the five basalt groups</a></li>
+    <li><a href="#divides">Thermal divides and pressure</a></li>
+    <li><a href="#cmas">O'Hara's CMAS reduction</a></li>
+    <li><a href="#projection">What a projection is</a></li>
+    <li><a href="#math">The mathematics</a></li>
+    <li><a href="#diagrams">Reading each preset diagram</a></li>
+    <li><a href="#norm">The CIPW norm route</a></li>
+    <li><a href="#classify">Automatic classification</a></li>
+    <li><a href="#inputs">Input rules and assumptions</a></li>
+    <li><a href="#validation">How the results are validated</a></li>
+    <li><a href="#practice">Good practice and limitations</a></li>
+    <li><a href="#tools">Datasets, sharing and export</a></li>
+    <li><a href="#glossary">Glossary</a></li>
+    <li><a href="#refs">References</a></li>
+  </ol>
+</nav>
+
+<main>
+<h1>TetraScope manual</h1>
+<p class="sub">The basalt tetrahedron of Yoder &amp; Tilley (1962) and the CMAS projections of O'Hara (1968):
+the science behind them, what the program computes, and how far its results have been checked.</p>
+
+<!-- ============================================================ 1 -->
+<h2 id="start">1. Quick start</h2>
+<ol>
+  <li><b>Enter an analysis</b> in weight per cent oxides (or load an example, or an analysis from Yoder &amp; Tilley's Table 2).
+      Give FeO and Fe<sub>2</sub>O<sub>3</sub> separately if you have them; otherwise enter total iron as FeO* and choose the Fe<sub>2</sub>O<sub>3</sub>/&Sigma;Fe ratio.</li>
+  <li><b>Read where it sits</b> (right-hand panel): its Yoder &amp; Tilley normative group, its CMAS subvolume, and which side of each dividing plane it lies on.</li>
+  <li><b>Choose a projection</b>: a preset reproducing one of O'Hara's figures, or your own (one projection phase and three target vertices for a triangle; two phases and two vertices for a binary section).</li>
+  <li><b>Read the result</b>: weight-per-cent coordinates, the plotted position, the amount of the projection phase added or removed, warnings, and every assumption applied.</li>
+  <li><b>Plot data sets</b> (CSV upload, Table 2, your saved collection), then export the diagram (SVG/PNG) and coordinates (CSV), or share a link that reproduces the whole state.</li>
+</ol>
+
+<!-- ============================================================ 2 -->
+<h2 id="why">2. Why a basalt tetrahedron?</h2>
+<p>A basalt crystallises mainly to olivine, pyroxenes and plagioclase, with Fe-Ti oxides; a few percent of the
+oxides govern which of these appear. Yoder &amp; Tilley (1962) showed that the essential variety of basalts can be
+represented in a <b>simple basalt system</b> of four components, diopside&ndash;forsterite&ndash;nepheline&ndash;silica
+(Di&ndash;Fo&ndash;Ne&ndash;SiO<sub>2</sub>), in which albite lies on the Ne&ndash;SiO<sub>2</sub> edge
+(NaAlSi<sub>3</sub>O<sub>8</sub> = NaAlSiO<sub>4</sub> + 2&nbsp;SiO<sub>2</sub>) and enstatite on the Fo&ndash;SiO<sub>2</sub> edge
+(Mg<sub>2</sub>Si<sub>2</sub>O<sub>6</sub> = Mg<sub>2</sub>SiO<sub>4</sub> + SiO<sub>2</sub>).</p>
+<p>For natural rocks they generalised this to a <b>normative tetrahedron</b> with vertices clinopyroxene (Cpx), olivine (Ol),
+nepheline (Ne) and quartz (Qz), grouping the iron end members with their magnesian equivalents and treating albite&ndash;anorthite
+as a single plagioclase (Pl). Orthopyroxene and plagioclase lie inside it. A rock's CIPW norm places it at a point in this volume.</p>
+<p>Four components need three dimensions, which is why diagrams of this system are either 3-D sketches or <b>projections</b>
+onto a plane &mdash; the subject of O'Hara's method.</p>
+
+<!-- ============================================================ 3 -->
+<h2 id="planes">3. Dividing planes and the five basalt groups</h2>
+<p>Two planes inside the tetrahedron divide basalts into chemically distinct groups (Yoder &amp; Tilley 1962, p. 352):</p>
+<ul>
+  <li>the <b>critical plane of silica undersaturation</b>, Cpx&ndash;Ol&ndash;Pl (in the simple system Di&ndash;Fo&ndash;Ab), which separates
+      nepheline-normative (alkalic) compositions from the rest;</li>
+  <li>the <b>plane of silica saturation</b>, Cpx&ndash;Opx&ndash;Pl (Di&ndash;En&ndash;Ab), which separates quartz-normative from olivine-normative compositions.</li>
+</ul>
+<div class="tablewrap"><table>
+  <tr><th>group</th><th>normative minerals</th><th>position</th></tr>
+  <tr><td>1. tholeiite (oversaturated)</td><td>quartz + hypersthene</td><td>beyond the plane of silica saturation</td></tr>
+  <tr><td>2. tholeiite (saturated; hypersthene basalt)</td><td>hypersthene, no Qz, no Ol</td><td>on the plane of silica saturation</td></tr>
+  <tr><td>3. olivine tholeiite (undersaturated)</td><td>hypersthene + olivine</td><td>between the two planes</td></tr>
+  <tr><td>4. olivine basalt</td><td>olivine, no Hy, no Ne</td><td>on the critical plane</td></tr>
+  <tr><td>5. alkali basalt</td><td>olivine + nepheline</td><td>beyond the critical plane</td></tr>
+</table></div>
+<p>Groups 2 and 4 are planes, not volumes: a real analysis almost never lies exactly on them, so in practice they
+mark compositions very close to a plane. TetraScope reports both the group read from the norm and the exact side of each
+plane computed geometrically (&sect;10); near a plane these can legitimately disagree by a fraction of a per cent of a
+normative mineral, as they do for two of Yoder &amp; Tilley's own analyses (&sect;12).</p>
+<p>Rocks with normative larnite, leucite or kalsilite (melilite-bearing types and strongly undersaturated potassic rocks)
+cannot be represented inside the tetrahedron at all; TetraScope flags them.</p>
+
+<!-- ============================================================ 4 -->
+<h2 id="divides">4. Thermal divides and the role of pressure</h2>
+<p>The planes matter because at low pressure the critical plane of silica undersaturation behaves as a <b>thermal divide</b>:
+joins such as albite&ndash;forsterite and diopside&ndash;albite behave, in Yoder &amp; Tilley's words, as "equilibrium thermal
+divides", so a liquid on one side cannot cross to the
+other by crystallising olivine, pyroxene and plagioclase. Yoder &amp; Tilley therefore argued that alkali basalt and tholeiite
+magmas cannot be derived from one another by low-pressure fractional crystallisation, and looked to high pressure &mdash; where
+the phases change and the divides move or vanish &mdash; for the origin of the two series.</p>
+<p>O'Hara (1968) opens his review with this point: following Yoder &amp; Tilley there was general realisation of the severe
+limitations that such divides place on petrogenetic theories. His Fig. 4 shows how the crystalline phases coexisting with olivine and
+liquid change with pressure: from 1 atm to 15 kbar the orthopyroxene field extends into nepheline-normative compositions
+(extensively so at 15 kbar); the clinopyroxene field expands to 10 kbar, is diminished at 15 kbar and recedes once garnet
+becomes stable; and between 20 and 30 kbar orthopyroxene withdraws into the hypersthene-normative region. Lherzolite residua
+might form by partial melting of garnet peridotite at 20 kbar, but garnet-harzburgite residua form at 30 kbar. Whether a
+partially melting peridotite leaves a lherzolite or a harzburgite residue therefore depends on the pressure, and liquids
+formed at depth may cross low-pressure divides on their way up. The projections in TetraScope are the tool with which such
+arguments are made: they let one see where a liquid or rock lies relative to the phase boundaries and control planes of the
+synthetic system.</p>
+<div class="note">TetraScope computes <b>compositions and geometry</b>. It does not draw phase boundaries (cotectics, liquidus
+fields) &mdash; those are pressure-dependent experimental results that you overlay from the literature. The dividing planes it
+does draw are compositional planes, valid at every pressure; their <i>behaviour as thermal divides</i> is what depends on pressure.</div>
+
+<!-- ============================================================ 5 -->
+<h2 id="cmas">5. O'Hara's CMAS reduction</h2>
+<p>Most experimental phase equilibria relevant to basalt and peridotite were determined in the synthetic system
+CaO&ndash;MgO&ndash;Al<sub>2</sub>O<sub>3</sub>&ndash;SiO<sub>2</sub> (CMAS). To compare natural rocks with them, O'Hara (1968, caption to Fig. 4)
+reduced an analysis to four components C, M, A, S, computed from <b>molecular proportions</b> and converted back to the
+<b>weight</b> of the equivalent simple oxide:</p>
+<pre>C = (CaO &minus; 10/3 P2O5 + 2 Na2O + 2 K2O)          &times; 56.08
+M = (MgO + FeO + MnO + NiO &minus; TiO2)              &times; 40.31
+A = (Al2O3 + Cr2O3 + Fe2O3 + Na2O + K2O + TiO2) &times; 101.96
+S = (SiO2 &minus; 2 Na2O &minus; 2 K2O)                  &times; 60.09</pre>
+<p>Each term has a mineralogical meaning. One Na<sub>2</sub>O unit forms two albite, Na<sub>2</sub>O&middot;Al<sub>2</sub>O<sub>3</sub>&middot;6SiO<sub>2</sub>;
+adding 2 CaO and 1 Al<sub>2</sub>O<sub>3</sub> and removing 2 SiO<sub>2</sub> turns it into two anorthite, so albite plots as anorthite.
+The same terms turn jadeite and aegirine into Ca-Tschermak's molecule. Subtracting TiO<sub>2</sub> from M and adding it to A turns
+ulv&ouml;spinel (2FeO&middot;TiO<sub>2</sub>) into spinel; Fe<sub>2</sub>O<sub>3</sub> and Cr<sub>2</sub>O<sub>3</sub> go to A, so magnetite and chromite
+become spinel; FeO, MnO and NiO count as MgO, so every olivine becomes forsterite and every garnet falls on the
+grossular&ndash;pyrope join. Apatite is removed with 10/3 CaO per P<sub>2</sub>O<sub>5</sub>.</p>
+<div class="tablewrap"><table>
+  <tr><th>natural phase</th><th>plots in CMAS as</th><th>checked by</th></tr>
+  <tr><td>albite, orthoclase</td><td>anorthite, CAS<sub>2</sub></td><td rowspan="5">exact molar ratios, <code>tests/test_validation.py</code></td></tr>
+  <tr><td>jadeite, aegirine</td><td>Ca-Tschermak's molecule, CAS</td></tr>
+  <tr><td>ulv&ouml;spinel, magnetite, chromite</td><td>spinel, MA</td></tr>
+  <tr><td>fayalite and all olivines</td><td>forsterite, M<sub>2</sub>S</td></tr>
+  <tr><td>almandine and all garnets</td><td>pyrope&ndash;grossular join</td></tr>
+</table></div>
+<p><b>What is lost.</b> The reduction deliberately discards the Fe/Mg ratio (all iron behaves as MgO) and the effect of alkalis
+on phase relations, and it depends on how iron is split between FeO and Fe<sub>2</sub>O<sub>3</sub>. It is a device for comparing
+phase relations, not a full chemical description.</p>
+
+<!-- ============================================================ 6 -->
+<h2 id="projection">6. What a projection is &mdash; and why project from olivine</h2>
+<p>In a four-component system every composition is a point in a tetrahedron. <b>Projecting from a phase P onto a plane</b>
+means drawing the straight line from P through the composition X and plotting where it meets the plane. Because
+compositions mix linearly (the lever rule), every point on that line is X plus or minus some amount of P. The
+projected point therefore <b>ignores how much P the rock contains</b> and records only the proportions of everything else.</p>
+<figure class="fig">
+<svg viewBox="0 0 560 300" role="img" aria-label="Projection geometry sketch">
+  <polygon points="80,250 300,270 480,210 250,90" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".35"/>
+  <polygon points="80,250 480,210 250,90" fill="rgba(47,93,140,.12)" stroke="rgb(47,93,140)" stroke-width="1.5"/>
+  <circle cx="330" cy="35" r="6" fill="rgb(140,74,47)"/>
+  <text x="342" y="32" font-size="14" fill="currentColor" font-family="Segoe UI,sans-serif">P  (e.g. olivine)</text>
+  <line x1="330" y1="35" x2="286" y2="192" stroke="rgb(140,74,47)" stroke-width="1.6" stroke-dasharray="6 4"/>
+  <circle cx="312" cy="98" r="5" fill="currentColor"/>
+  <text x="322" y="104" font-size="14" fill="currentColor" font-family="Segoe UI,sans-serif">X  (the composition)</text>
+  <circle cx="286" cy="192" r="6" fill="rgb(47,93,140)"/>
+  <text x="298" y="196" font-size="14" fill="currentColor" font-family="Segoe UI,sans-serif">projected point</text>
+  <text x="60" y="270" font-size="13" fill="currentColor" font-family="Segoe UI,sans-serif">B1</text>
+  <text x="486" y="214" font-size="13" fill="currentColor" font-family="Segoe UI,sans-serif">B2</text>
+  <text x="238" y="82" font-size="13" fill="currentColor" font-family="Segoe UI,sans-serif">B3</text>
+  <text x="120" y="232" font-size="12.5" fill="rgb(47,93,140)" font-family="Segoe UI,sans-serif">target plane B1-B2-B3</text>
+</svg>
+<figcaption>Projection from a phase P: the composition X is moved along the line through P (adding or subtracting P)
+until it reaches the target plane. All compositions on that line plot at the same point.</figcaption>
+</figure>
+<p>This is exactly what one wants for olivine-bearing basalts. Primitive basalt liquids are saturated in olivine over much
+of their crystallisation interval, and olivine is the phase most easily added (accumulation) or removed (fractionation).
+In a projection from olivine, olivine fractionation and accumulation do not move a point at all, while the phase boundaries
+of <i>olivine-saturated</i> liquids appear as lines separating the fields of the other phases that crystallise with olivine
+(plagioclase, clinopyroxene, orthopyroxene, spinel, garnet). O'Hara's Fig. 4 shows such boundaries at pressures from
+1 atm to 30 kbar in the projection from olivine into CS&ndash;MS&ndash;A.</p>
+<p>The same logic gives the other projections: from <b>orthopyroxene</b> for melting of orthopyroxene-bearing peridotite
+(Figs 5, 10), from <b>diopside</b> (Fig. 11), and from plagioclase, silica or two phases at once for the gabbroic and
+eclogitic assemblages.</p>
+<div class="note"><b>A projection is only as meaningful as its assumption.</b> Phase boundaries drawn in a projection from
+olivine describe liquids that coexist with olivine. The projected position of any composition is always geometrically
+defined, but comparing it with olivine-saturated boundaries only makes sense if the liquid is (or was) olivine-saturated.</div>
+
+<!-- ============================================================ 7 -->
+<h2 id="math">7. The mathematics</h2>
+<p>Let x be the composition as a 4-vector (C, M, A, S in weight units, or Di, Ol, Ne, Qz). A projection from one phase P
+onto the plane through B<sub>1</sub>, B<sub>2</sub>, B<sub>3</sub> solves</p>
+<pre>x = a&middot;P + b1&middot;B1 + b2&middot;B2 + b3&middot;B3</pre>
+<p>&mdash; four equations in four unknowns. The b<sub>i</sub> are amounts of the vertices in formula units; multiplied by each
+vertex's formula weight and normalised to 100 they give the <b>weight-per-cent coordinates</b> that O'Hara plots. Plotting the
+b<sub>i</sub> themselves would give molecular coordinates, which is a different diagram (&sect;12 shows the difference is large).</p>
+<ul>
+  <li><b>The coefficient a</b> is how much of P lies between the composition and the plane. Positive: P must be
+      <i>subtracted</i> to reach the plane; negative: P must be <i>added</i>. A basalt projected from olivine usually has a
+      small negative a, because it is displaced from CS&ndash;MS&ndash;A towards silica.</li>
+  <li><b>Negative coordinates</b> mean the point lies outside the triangle. This is legitimate: spinel projected from olivine,
+      for instance, lies beyond the MS corner (MA = M<sub>2</sub>S &minus; MS + A).</li>
+  <li><b>Validity.</b> The system has a unique solution unless P lies in the target plane (then the whole plane is seen edge-on and
+      the projection is undefined). TetraScope judges this with the condition number of the column-normalised system: above
+      10<sup>10</sup> the projection is refused; above 10<sup>3</sup> (analytical errors amplified more than 1000-fold) it is
+      flagged. All presets have condition numbers below 20.</li>
+  <li><b>Double projections.</b> With two projection phases and two target vertices the same equation gives one ratio &mdash; a
+      point on a binary join.</li>
+  <li><b>Edge-on planes.</b> If P lies in some plane, everything in that plane projects onto one line. O'Hara notes this for
+      Fig. 10: enstatite lies in CS&ndash;MS&ndash;A, so from enstatite the diopside&ndash;pyrope join and natural
+      clinopyroxene&ndash;garnet pairs project on top of each other. TetraScope reproduces this exactly (a test checks it).</li>
+</ul>
+<p><b>Plane sides.</b> The side of the plane through three end members E<sub>1</sub>, E<sub>2</sub>, E<sub>3</sub> on which x lies is the
+sign of det[E<sub>1</sub> E<sub>2</sub> E<sub>3</sub> x] relative to that of a reference vertex, computed on unit-length vectors so
+that it does not depend on units or scale.</p>
+
+<!-- ============================================================ 8 -->
+<h2 id="diagrams">8. Reading each preset diagram</h2>
+<p>Positions below are the engine's values for pure phases (weight per cent); those marked &#10003; were also measured on
+O'Hara's own printed figures (&sect;12).</p>
+<h3>From olivine into CS&ndash;MS&ndash;A (O'Hara Figs 4, 9)</h3>
+<p>The workhorse basalt diagram. Clinopyroxene lies on the CS&ndash;MS join (diopside at CS 53.6, MS 46.4 &#10003;), orthopyroxene at
+the MS corner, garnet on the MS&ndash;A edge (pyrope at A 25.3 &#10003;), plagioclase inside (anorthite at CS 27.7, MS 47.9, A 24.3).
+Olivine-saturated liquids lie in the region bounded by these phases; the diopside&ndash;pyrope mixtures of O'Hara &amp; Yoder
+plot on the straight line between them &#10003;.</p>
+<h3>From orthopyroxene into M<sub>2</sub>S&ndash;C<sub>2</sub>S<sub>3</sub>&ndash;A<sub>2</sub>S<sub>3</sub> (Figs 5, 10)</h3>
+<p>For peridotite melting. The triangle contains the olivine&ndash;diopside&ndash;pyrope plane: diopside lies on the M<sub>2</sub>S&ndash;C<sub>2</sub>S<sub>3</sub> edge
+(C<sub>2</sub>S<sub>3</sub> 67.5 &#10003;), pyrope on the M<sub>2</sub>S&ndash;A<sub>2</sub>S<sub>3</sub> edge (A<sub>2</sub>S<sub>3</sub> 47.7 &#10003;), olivine at the apex.
+C<sub>2</sub>S<sub>3</sub> and A<sub>2</sub>S<sub>3</sub> are pseudo-components (CaO&middot;1.5SiO<sub>2</sub> and Al<sub>2</sub>O<sub>3</sub>&middot;1.5SiO<sub>2</sub>) chosen so that
+the plane passes through these phases.</p>
+<h3>From diopside into C<sub>3</sub>A&ndash;SiO<sub>2</sub>&ndash;MgO (Fig. 11)</h3>
+<p>Diopside lies in the low-pressure thermal-divide plane diopside&ndash;anorthite&ndash;forsterite, so from diopside that plane is
+seen edge-on: in O'Hara's words it "appears as the line olivine&ndash;anorthite" (TetraScope reproduces this collinearity exactly).
+The view therefore shows how close a liquid lies to the plane of critical silica undersaturation. O'Hara also notes that the
+plane olivine&ndash;E&Prime;&ndash;H&Prime; (the face shared by the lherzolite + liquid and garnet-harzburgite + liquid assemblages at the
+start of melting) is virtually coplanar with C<sub>3</sub>A&ndash;S&ndash;M, and uses the figure for the garnet lherzolites and mantle models.</p>
+<h3>Sub-projections and binary sections</h3>
+<p>From plagioclase into olivine&ndash;diopside&ndash;silica (the usual low-pressure gabbro pseudo-ternary); from diopside into
+olivine&ndash;anorthite&ndash;silica; from olivine into diopside&ndash;anorthite&ndash;silica; from silica into olivine&ndash;diopside&ndash;anorthite; and double
+projections giving the CS/A ratio after removing olivine and orthopyroxene, or the Di/SiO<sub>2</sub> ratio after removing olivine
+and plagioclase.</p>
+<h3>In the normative tetrahedron (Yoder &amp; Tilley)</h3>
+<p>From each vertex onto the opposite face, and from albite (plagioclase) onto Di&ndash;Ol&ndash;Qz, which shows the critical plane
+face-on. Albite lies at Ne + 2Qz and hypersthene at Ol + Qz on the edges.</p>
+<h3>Your own projection</h3>
+<p>Any end member of the space can be a projection point or a vertex. Choices where the projection point lies in the target
+plane are refused with an explanation.</p>
+
+<!-- ============================================================ 9 -->
+<h2 id="norm">9. The CIPW norm route</h2>
+<p>To place a rock in the Di&ndash;Ol&ndash;Ne&ndash;Qz tetrahedron TetraScope calculates a classic weight CIPW norm (Cross, Iddings, Pirsson &amp;
+Washington), the recalculation of an analysis into standard anhydrous minerals that Yoder &amp; Tilley used:</p>
+<ol>
+  <li>apatite (10/3 CaO per P<sub>2</sub>O<sub>5</sub>), chromite, ilmenite, magnetite, hematite;</li>
+  <li>orthoclase, albite, anorthite, corundum;</li>
+  <li>diopside, wollastonite (excess CaO), hypersthene; the rest of the silica is quartz;</li>
+  <li>if silica is short: hypersthene &rarr; olivine, albite &rarr; nepheline, orthoclase &rarr; leucite, leucite &rarr; kalsilite,
+      wollastonite &rarr; larnite, diopside &rarr; larnite + olivine, in that order.</li>
+</ol>
+<p>The norm is then recast into the four vertices with Yoder &amp; Tilley's identities (Ab = Ne + 2Qz, Hy = Ol + Qz).
+Anorthite and orthoclase have no place in Di&ndash;Ol&ndash;Ne&ndash;Qz; by default the composition is <b>projected from plagioclase</b>
+(An, Ab and Or removed &mdash; the geometrically exact operation), or, optionally, Ab is recast as Ne + 2Qz and An and Or are
+omitted. The Fe-Ti oxides, apatite and the minerals outside the tetrahedron are excluded and listed.</p>
+<p>Phosphorus beyond what the CaO can take up, and Na or K in excess of Al (peralkaline rocks), are left unallocated with a
+warning rather than forced &mdash; so no normative mineral can go negative.</p>
+
+<!-- ============================================================ 10 -->
+<h2 id="classify">10. Automatic classification</h2>
+<p>Every result states (a) the Yoder &amp; Tilley group, read from which of Qz, Hy, Ol and Ne are present in the norm; (b) the
+CMAS subvolume &mdash; nepheline-normative, olivine-hypersthene-normative or quartz-normative &mdash; from the sides of the critical
+plane Di&ndash;Ol&ndash;An and the plane of silica saturation Di&ndash;Hy&ndash;An in CMAS; and (c) the side of three further control planes
+(orthopyroxene&ndash;anorthite&ndash;diopside, olivine&ndash;garnet&ndash;orthopyroxene, olivine&ndash;plagioclase&ndash;orthopyroxene). The two routes, (a)
+through the norm and (b) through CMAS, use different reductions of the same analysis and normally agree; near a plane
+they may not, and the difference is informative.</p>
+
+<!-- ============================================================ 11 -->
+<h2 id="inputs">11. Input rules and assumptions</h2>
+<ul>
+  <li><b>Oxide names are strict.</b> A typo such as <code>Si02</code> stops the calculation with a suggestion ("did you mean SiO2?").
+      Oxides the model does not use (SrO, BaO, SO<sub>3</sub>, F, Cl, ZrO<sub>2</sub> &hellip;) are accepted and listed. Descriptive CSV
+      columns (label, rock, locality, total, &hellip;) are skipped. "Lenient import" ignores unknown columns deliberately.</li>
+  <li><b>Values</b> must be finite, non-negative numbers; negative, non-numeric and infinite values are rejected with the oxide named.</li>
+  <li><b>Totals</b> outside 97&ndash;102 wt% (anhydrous) are accepted with a warning: all calculations use ratios.</li>
+  <li><b>Iron.</b> With total iron, the Fe<sub>2</sub>O<sub>3</sub>/&Sigma;Fe ratio (molar, 0&ndash;1; default 0.15) splits it. The choice moves
+      points: Fe<sub>2</sub>O<sub>3</sub> goes to A and FeO to M in CMAS, and magnetite in the norm consumes FeO.</li>
+  <li><b>Every assumption is listed</b> with the result (e.g. "albite recast as the equivalent weight of anorthite",
+      "normative hypersthene recast as olivine + silica").</li>
+</ul>
+
+<!-- ============================================================ 12 -->
+<h2 id="validation">12. How the results are validated</h2>
+<p>Three independent layers, all run by <code>python run_tests.py</code> and, in part, in the Validation tab of the workbench.</p>
+<h3>A. Algebra and stoichiometry</h3>
+<p>Hand calculations from mineral formulas: e.g. CAS<sub>2</sub> + M<sub>2</sub>S = CS + 2&nbsp;MS + A puts anorthite at CS 27.73 / MS 47.93 /
+A 24.34 in the olivine projection; every consequence of O'Hara's reduction listed in &sect;5 is checked as an exact molar ratio.</p>
+<h3>B. Yoder &amp; Tilley (1962), Table 2</h3>
+<p>All 25 analyses and printed norms were transcribed (with a per-cell provenance record) and reproduce every printed total.
+The computed norms agree with the printed ones to within a few tenths of a per cent for most minerals (largest difference
+1.4 wt% in the Di&ndash;Hy&ndash;Ol split of one analysis); the normative group agrees for 23 of 25 analyses, and the other two lie on
+the critical plane, with the deciding mineral below 1 wt% in both norms. The comparison also exposed an erratum in the
+original: for analyses 10&ndash;13 the printed magnetite and ilmenite values are transposed.</p>
+<h3>C. O'Hara's own figures</h3>
+<p>Points were digitised from Figs 4A, 4C, 5, 9, 10 and 11. Each figure was calibrated from its own printed tick marks only; the
+plotted points were then read in O'Hara's coordinates and compared with TetraScope. Two kinds of point were used: pure
+phases and O'Hara &amp; Yoder's diopside&ndash;pyrope mixtures (exact compositions), which test the geometry; and <b>natural basalts</b>
+&mdash; the rocks O'Hara labels 1921, PB, KA, MK, ML, ML&nbsp;87, E1 and E2 &mdash; whose analyses were traced to Yoder &amp; Tilley (1962)
+and to Tilley, Yoder &amp; Schairer (1963, 1964). The natural rocks also test O'Hara's full reduction of Na, K, Ti, P, Cr and Fe<sup>3+</sup>:
+in effect, they compare TetraScope with the output of O'Hara's own 1968 computer program.</p>
+<div class="tablewrap"><table>
+  <tr><th>figure</th><th>projection</th><th class="n">points (natural)</th><th class="n">mean |&Delta;| (wt%)</th><th class="n">max |&Delta;| (wt%)</th></tr>
+  <tr><td>4A</td><td>from olivine into CS&ndash;MS&ndash;A</td><td class="n">8 (6)</td><td class="n">0.19</td><td class="n">0.53</td></tr>
+  <tr><td>4C</td><td>from olivine into CS&ndash;MS&ndash;A</td><td class="n">3 (2)</td><td class="n">0.25</td><td class="n">0.25</td></tr>
+  <tr><td>5</td><td>from orthopyroxene into M<sub>2</sub>S&ndash;C<sub>2</sub>S<sub>3</sub>&ndash;A<sub>2</sub>S<sub>3</sub></td><td class="n">5 (3)</td><td class="n">0.21</td><td class="n">0.24</td></tr>
+  <tr><td>9</td><td>from olivine into CS&ndash;MS&ndash;A</td><td class="n">12</td><td class="n">0.17</td><td class="n">0.33</td></tr>
+  <tr><td>10</td><td>from enstatite into M<sub>2</sub>S&ndash;C<sub>2</sub>S<sub>3</sub>&ndash;A<sub>2</sub>S<sub>3</sub></td><td class="n">12</td><td class="n">0.23</td><td class="n">0.45</td></tr>
+  <tr><td>11</td><td>from diopside into C<sub>3</sub>A&ndash;SiO<sub>2</sub>&ndash;MgO</td><td class="n">4</td><td class="n">0.16</td><td class="n">0.17</td></tr>
+</table></div>
+<p>All 44 points agree within 0.53 wt%, and the 11 natural-rock points within 0.25 wt%. The differences have mixed signs and
+are about the size of hand-plotting on a 1968 figure (0.5 wt% is roughly 1.3 mm on the printed page). Two controls show the
+comparison discriminates: plotting in molecular instead of weight units misses by 11 wt% on average, and a reduction without
+O'Hara's alkali, Ti, P and Fe<sup>3+</sup> terms misses every natural rock by far more than the tolerance.</p>
+<div class="note"><b>A discrepancy in the original.</b> The "1921" point in Fig. 5 lies 3 wt% from analysis 14, the analysis the
+sources give for the 1921 Kilauea olivine tholeiite and the one that matches O'Hara's own "1921" in Fig. 4C (0.25 wt%). It lies within
+0.11 wt% of Yoder &amp; Tilley's analysis 12 of the same lava: O'Hara seems to have plotted a different 1921 analysis in Fig. 5. The
+point is reported but not scored.</div>
+<p>Other natural points in these figures (Green &amp; Ringwood's experimental compositions, the 1955 Kilauea lavas, kimberlite
+nodules and mantle models) come from sources that are not openly accessible, and are not yet compared.</p>
+<h3>Engines</h3>
+<p>The browser and the Python package share one definitions file and are compared on 848 cases &times; 15 projections, including
+malformed input; browser workflows (CSV upload, sharing, export, collection, offline use) are tested in Chromium.</p>
+
+<!-- ============================================================ 13 -->
+<h2 id="practice">13. Good practice and limitations</h2>
+<ul>
+  <li><b>Liquids versus rocks.</b> Phase boundaries describe liquids. A porphyritic lava or a cumulate is a mixture of liquid and
+      crystals; its projected position is real, but it is not a liquid composition. Aphyric glasses and quenched run products
+      are the safest comparison with experiments.</li>
+  <li><b>Alteration.</b> Weathering, spilitisation and high LOI change Na, K, Ca and the iron oxidation state; the normative group
+      of an altered basalt can be spurious.</li>
+  <li><b>Iron oxidation.</b> Report the Fe<sub>2</sub>O<sub>3</sub>/&Sigma;Fe you used; it can move a composition across the plane of silica saturation.</li>
+  <li><b>Pressure.</b> Boundaries shift strongly with pressure (&sect;4); compare with experiments at the relevant pressure.</li>
+  <li><b>Near a plane,</b> treat the side as uncertain: an analytical error of a few tenths of a per cent in SiO<sub>2</sub> or Na<sub>2</sub>O can
+      move a composition across it.</li>
+  <li><b>CMAS is a projection of chemistry, too.</b> Fe/Mg and alkali effects on phase relations are not represented.</li>
+  <li><b>Not validated yet:</b> the natural points in O'Hara's figures whose analyses are not openly accessible (&sect;12).</li>
+</ul>
+
+<!-- ============================================================ 14 -->
+<h2 id="tools">14. Datasets, sharing and export</h2>
+<ul>
+  <li><b>CSV</b>: one analysis per row, header row of oxide names; quoted fields and semicolon- or tab-separated files work. Rows that
+      fail are listed with their line numbers; the rest are plotted.</li>
+  <li><b>Built-in data</b>: Yoder &amp; Tilley's Table 2 and a set of reference compositions and end members.</li>
+  <li><b>My collection</b> keeps compositions in this browser; export it as CSV.</li>
+  <li><b>Share</b> creates a link containing the composition, options and diagram after the <code>#</code>, which browsers do not send to
+      servers. Untick "include the composition" to share only the diagram choice.</li>
+  <li><b>Export</b>: SVG and PNG of the diagram; CSV of coordinates, condition numbers and groups.</li>
+  <li><b>Offline</b>: once loaded over http(s), TetraScope works without a connection and can be installed as an app.</li>
+  <li><b>Command line</b> (Python): <code>ohara --oxides "SiO2=48.5,..."</code> or <code>ohara --csv file.csv</code>; see <code>ohara --help</code>.</li>
+</ul>
+
+<!-- ============================================================ 15 -->
+<h2 id="glossary">15. Glossary</h2>
+<dl>
+  <dt>CMAS</dt><dd>The system CaO&ndash;MgO&ndash;Al<sub>2</sub>O<sub>3</sub>&ndash;SiO<sub>2</sub>; in O'Hara's notation C, M, A, S, with compounds written as combinations (e.g. CMS<sub>2</sub> = diopside, CAS<sub>2</sub> = anorthite, M<sub>2</sub>S = forsterite).</dd>
+  <dt>Projection (from a phase)</dt><dd>Mapping a composition onto a plane along the line through the projection phase; equivalent to adding or removing that phase.</dd>
+  <dt>Weight-per-cent projection</dt><dd>Coordinates are weights of the vertex compounds, normalised to 100 &mdash; the convention of O'Hara's figures.</dd>
+  <dt>Normative mineral / norm</dt><dd>A standard anhydrous mineral calculated from the analysis (CIPW), not necessarily present in the rock.</dd>
+  <dt>Critical plane of silica undersaturation</dt><dd>Cpx&ndash;Ol&ndash;Pl; separates nepheline-normative from hypersthene-normative compositions.</dd>
+  <dt>Plane of silica saturation</dt><dd>Cpx&ndash;Opx&ndash;Pl; separates quartz-normative from olivine-normative compositions.</dd>
+  <dt>Thermal divide</dt><dd>A join or plane with a temperature maximum that liquids cannot cross by crystallisation.</dd>
+  <dt>Control plane</dt><dd>A plane through phases that a liquid or residue is saturated in; compositions controlled by those phases move within it.</dd>
+  <dt>Residuum (lherzolite, harzburgite)</dt><dd>The solid left after partial melting: olivine + two pyroxenes (&plusmn; spinel/garnet) for lherzolite, olivine + orthopyroxene for harzburgite.</dd>
+  <dt>Pseudo-component</dt><dd>A convenient composition such as C<sub>2</sub>S<sub>3</sub> or A<sub>2</sub>S<sub>3</sub> used as a triangle vertex, not a mineral.</dd>
+  <dt>Condition number</dt><dd>How strongly a projection amplifies analytical errors; large when the projection point is close to the target plane.</dd>
+</dl>
+
+<!-- ============================================================ 16 -->
+<h2 id="refs">16. References</h2>
+<ul class="refs">
+  <li>Cross, W., Iddings, J. P., Pirsson, L. V. &amp; Washington, H. S. (1902). A quantitative chemico-mineralogical classification and nomenclature of igneous rocks. <i>Journal of Geology</i> 10, 555&ndash;690.</li>
+  <li>O'Hara, M. J. (1968). The bearing of phase equilibria studies in synthetic and natural systems on the origin and evolution of basic and ultrabasic rocks. <i>Earth-Science Reviews</i> 4, 69&ndash;133.</li>
+  <li>Tilley, C. E., Yoder, H. S. &amp; Schairer, J. F. (1963). Melting relations of basalts. <i>Carnegie Institution of Washington Year Book</i> 62, 77&ndash;84.</li>
+  <li>Tilley, C. E., Yoder, H. S. &amp; Schairer, J. F. (1964). New relations on melting of basalts. <i>Carnegie Institution of Washington Year Book</i> 63, 92&ndash;97.</li>
+  <li>O'Hara, M. J. &amp; Yoder, H. S. (1967). Formation and fractionation of basic magmas at high pressures. <i>Scottish Journal of Geology</i> 3, 67&ndash;117.</li>
+  <li>Yoder, H. S. &amp; Tilley, C. E. (1962). Origin of basalt magmas: an experimental study of natural and synthetic rock systems. <i>Journal of Petrology</i> 3, 342&ndash;532.</li>
+</ul>
+<p class="sub" style="margin-top:30px">This manual describes TetraScope as distributed with its test suite; the numbers quoted in &sect;&sect;8 and 12 are
+produced by that suite.</p>
+</main>
+</div>
+</body>
+</html>

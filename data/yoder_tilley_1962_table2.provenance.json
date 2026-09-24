@@ -1,0 +1,74 @@
+{
+ "dataset": "data/yoder_tilley_1962_table2.csv",
+ "per_value_provenance": "data/yoder_tilley_1962_table2.provenance.csv",
+ "source": {
+  "citation": "Yoder, H. S. & Tilley, C. E. (1962). Origin of basalt magmas: an experimental study of natural and synthetic rock systems. Journal of Petrology 3, 342-532.",
+  "table": "Table 2, 'Chemical analyses and norms of rocks investigated (*) and rocks closely related'",
+  "pages": {
+   "361": "analyses 1-11 (incl. 7a)",
+   "362": "analyses 12-24"
+  },
+  "notes_page": 363,
+  "file": "1962_Yoder & Tilley_JoP_Origin of basalt magmas-An  experimental study of natural and synthetic rock systems.pdf",
+  "pdf_page_index": {
+   "361": 19,
+   "362": 20
+  }
+ },
+ "transcription": {
+  "date": "2026-09-23",
+  "by": "Claude (AI assistant), for K. Tiwari",
+  "method": "pages rendered at 200 dpi with PyMuPDF and read from the images; the PDF text layer (OCR) was used only as a cross-check",
+  "verification": [
+   "every analysis reproduces its printed oxide TOTAL within 0.015 wt% (all 25)",
+   "every norm reproduces its printed norm TOTAL within 0.015 wt% (all 25)",
+   "checked automatically in tests/test_published.py::test_transcription_reproduces_printed_totals"
+  ]
+ },
+ "conventions": {
+  "n.d.": "not determined -> blank",
+  "—": "none in the norm -> blank",
+  "nil": "-> 0",
+  "tr.": "trace -> 0",
+  "decimal": "the printed mid-dot (·) is the decimal point",
+  "columns": "n_* columns are the printed CIPW norm; total and n_total are the printed totals"
+ },
+ "corrections": [
+  {
+   "analyses": [
+    "10",
+    "11",
+    "12",
+    "13"
+   ],
+   "columns": [
+    "n_Mt",
+    "n_Il"
+   ],
+   "action": "none (kept as printed)",
+   "finding": "printed magnetite and ilmenite appear transposed: e.g. no. 10 prints Mt 5.78, Il 2.55, but its Fe2O3 = 1.72 wt% allows at most 2.49 wt% Mt while its TiO2 = 3.02 wt% gives 5.74 wt% Il",
+   "handling": "compared crosswise in validation"
+  },
+  {
+   "analyses": [
+    "6"
+   ],
+   "columns": [
+    "total"
+   ],
+   "action": "none",
+   "finding": "printed total 99.86 vs 99.865 from the printed oxides (rounding in the original)"
+  },
+  {
+   "analyses": [
+    "24"
+   ],
+   "columns": [
+    "n_Cs",
+    "n_Ks"
+   ],
+   "action": "moved to their own columns",
+   "finding": "larnite (Cs) and kalsilite (Ks) are printed in the Qz and Or rows with annotations '(Cs)' and '(Ks)'"
+  }
+ ]
+}

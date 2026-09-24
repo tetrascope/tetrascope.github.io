@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 420" role="img" aria-labelledby="title desc">
+  <title id="title">TetraScope</title>
+  <desc id="desc">TetraScope logo: a tetrahedron with a projected sample point and the name TetraScope.</desc>
+  <rect width="1500" height="420" rx="54" fill="#1f2124"/>
+  <g transform="translate(44 42)">
+    <path d="M166 28 298 266 34 266Z M166 28v150 M34 266l132-88 132 88" fill="none" stroke="#e9e7e2" stroke-width="17" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M166 28 204 191" fill="none" stroke="#7fb0e0" stroke-width="13" stroke-linecap="round" stroke-dasharray="18 14"/>
+    <circle cx="204" cy="191" r="25" fill="#d98b6a" stroke="#1f2124" stroke-width="9"/>
+    <circle cx="204" cy="191" r="7" fill="#fff7ef"/>
+  </g>
+  <text x="395" y="202" fill="#f4f1eb" font-family="Segoe UI, Arial, sans-serif" font-size="142" font-weight="700" letter-spacing="-5">Tetra</text>
+  <text x="793" y="202" fill="#7fb0e0" font-family="Segoe UI, Arial, sans-serif" font-size="142" font-weight="700" letter-spacing="-5">Scope</text>
+  <text x="403" y="276" fill="#c7c5bf" font-family="Segoe UI, Arial, sans-serif" font-size="36" font-weight="500" letter-spacing="3">BASALT TETRAHEDRON · CMAS PROJECTIONS</text>
+</svg>
