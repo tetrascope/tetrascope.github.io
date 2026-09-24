@@ -116,7 +116,9 @@ def shell_files(generated):
     for dirpath, _, names in os.walk(app):
         for n in names:
             rel = os.path.relpath(os.path.join(dirpath, n), app).replace(os.sep, "/")
-            if n not in SW_EXCLUDE:
+            # the Firebase SDK is fetched only when a visitor signs in; it is
+            # cached on first use rather than pre-downloaded for everyone
+            if n not in SW_EXCLUDE and not rel.startswith("vendor/firebase-"):
                 files.add(rel)
     return sorted(files)
 

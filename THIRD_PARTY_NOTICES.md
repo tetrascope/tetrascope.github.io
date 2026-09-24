@@ -28,6 +28,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+## Firebase JavaScript SDK 12.19.0 (app and auth compat builds)
+
+`app/vendor/firebase-app-compat-12.19.0.js` and
+`app/vendor/firebase-auth-compat-12.19.0.js` are unmodified files from the
+`firebase` npm package 12.19.0 (Copyright Google LLC,
+https://github.com/firebase/firebase-js-sdk), pinned by SHA-512 in
+`app/vendor/VENDOR.json`. They are licensed under the Apache License,
+Version 2.0; a copy is in `licenses/Apache-2.0.txt`. They are loaded only
+when a visitor chooses to sign in.
+
 ## Data
 
 The tables in `data/` are transcriptions of published analyses and of

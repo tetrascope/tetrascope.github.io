@@ -188,6 +188,46 @@ async function projected(page) {
     assert(first !== second, "theme did not persist");
   });
 
+  await test("CSV template downloads and imports cleanly", async (page) => {
+    await ready(page);
+    const [dl] = await Promise.all([page.waitForEvent("download"), page.click("#dlTemplate")]);
+    const got = fs.readFileSync(await dl.path(), "utf8");
+    assert(got === fs.readFileSync(path.join(ROOT, "app", "tetrascope_template.csv"), "utf8"), "template differs");
+    await page.click("#csvGuideToggle");
+    assert(await page.locator("#csvGuide").isVisible(), "column guide not shown");
+    await page.setInputFiles("#csvFile", await dl.path());
+    await page.waitForFunction(() => /plotted/.test(document.getElementById("csvReport").textContent));
+    const rep = await page.textContent("#csvReport");
+    assert(/^.*: 3 plotted$/.test(rep.trim()), "template import: " + rep);
+  });
+
+  await test("sign-in stays hidden and loads nothing when not configured", async (page) => {
+    const requested = [];
+    page.on("request", (r) => requested.push(r.url()));
+    await ready(page);
+    assert(await page.locator("#btnAccount").isHidden(), "sign-in button shown without config");
+    assert(!requested.some((u) => /firebase|googleapis|gstatic/.test(u)), "Google/Firebase requested: " + requested.filter((u) => /firebase|google/.test(u)));
+  });
+
+  await test("sign-in button appears when configured and loads the pinned SDK on click", async (page, context, errors) => {
+    await context.route("**/config.js", (route) => route.fulfill({
+      contentType: "text/javascript",
+      body: 'window.OHARA_CONFIG = {appUrl: null, firebase: {apiKey: "AIzaTestTestTestTestTestTestTestTestTe", ' +
+            'authDomain: "tetrascope-test.firebaseapp.com", projectId: "tetrascope-test", appId: "1:1:web:1"}};'}));
+    context.on("page", (p) => p.close().catch(() => {}));      // the Google pop-up (cannot sign in here)
+    const requested = [];
+    page.on("request", (r) => requested.push(r.url()));
+    await ready(page);
+    assert(await page.locator("#btnAccount").isVisible(), "sign-in button not shown");
+    assert(!requested.some((u) => /vendor\/firebase/.test(u)), "SDK loaded before the visitor asked to sign in");
+    await page.click("#btnAccount");
+    await page.waitForFunction(() => window.firebase && window.firebase.apps.length === 1, null, { timeout: 10000 });
+    assert(requested.some((u) => /vendor\/firebase-auth-compat-12\.19\.0\.js/.test(u)), "pinned auth SDK not requested");
+    const sri = await page.$$eval("script[src*='vendor/firebase']", (els) => els.map((e) => !!e.integrity));
+    assert(sri.length === 2 && sri.every(Boolean), "SDK scripts not integrity-pinned");
+    errors.length = 0;          // the dummy project cannot complete a real Google sign-in
+  });
+
   await test("works offline after the service worker installs (incl. QR code)", async (page, context) => {
     await ready(page);
     await page.evaluate(() => navigator.serviceWorker.ready);

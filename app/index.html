@@ -60,6 +60,7 @@
            border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-weight:500;cursor:pointer;font:inherit;font-size:13px}
   .iconbtn:hover{border-color:var(--accent)}
   .iconbtn svg{width:15px;height:15px;flex:none}
+  #accountIcon img{width:18px;height:18px;border-radius:50%;display:block}
   @media (max-width:640px){ .iconbtn .lbl{display:none} }
   /* theme switch */
   .switch{position:relative;width:56px;height:30px;border-radius:999px;border:1px solid var(--line);
@@ -171,6 +172,9 @@
     <button class="iconbtn" id="btnHelp" title="Manual, glossary and how to cite">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>
       <span class="lbl">Docs</span></button>
+    <button class="iconbtn hidden" id="btnAccount" title="Sign in with Google to keep your collection in your account">
+      <span id="accountIcon"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.7 13.3l7.9 6.1C12.5 13.6 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.7c4.3-4 6.9-9.9 6.9-17.1z"/><path fill="#FBBC05" d="M10.6 28.6c-.5-1.4-.7-2.9-.7-4.6s.3-3.2.7-4.6l-7.9-6.1C1 16.6 0 20.2 0 24s1 7.4 2.7 10.7l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.4-5.7c-2.1 1.4-4.8 2.3-8.5 2.3-6.2 0-11.5-4.1-13.4-9.9l-7.9 6.1C6.6 42.6 14.6 48 24 48z"/></svg></span>
+      <span class="lbl" id="accountLabel">Sign in</span></button>
     <button class="iconbtn hidden" id="btnInstall" title="Install as an app (works offline)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
       <span class="lbl">Install</span></button>
@@ -243,6 +247,26 @@
       <h2>Dataset</h2>
       <div class="row" style="margin-top:0">
         <button class="btn ghost" id="loadYT">Yoder &amp; Tilley (1962) Table 2</button>
+      </div>
+      <div class="row">
+        <a class="btn ghost" id="dlTemplate" href="tetrascope_template.csv" download="tetrascope_template.csv"
+           style="text-align:center;text-decoration:none">Download CSV template</a>
+        <button class="btn ghost" id="csvGuideToggle" aria-expanded="false" aria-controls="csvGuide">Column guide</button>
+      </div>
+      <div id="csvGuide" class="hidden muted" style="margin-top:8px">
+        <ul style="padding-left:18px;margin:4px 0">
+          <li><b>One analysis per row</b>, first row = column names. Values in <b>wt %</b>, dot as decimal separator (49.16).</li>
+          <li><b>Oxide columns</b> (any order, only the ones you have): SiO2, TiO2, Al2O3, Cr2O3, Fe2O3, FeO, MnO, NiO,
+            MgO, CaO, Na2O, K2O, P2O5, H2O, CO2. Names are not case-sensitive.</li>
+          <li><b>Iron</b>: either FeO and Fe2O3, <i>or</i> total iron as <b>FeOT</b> (also FeO*, Fe2O3T) &mdash; not both in one row.
+            Total iron is split with the Fe<sub>2</sub>O<sub>3</sub>/&Sigma;Fe ratio set above.</li>
+          <li><b>Descriptive columns</b> are allowed and ignored in the calculation: label, sample, name, id, rock, locality,
+            source, reference, notes, total, &hellip; The <b>label</b> (or sample / name / id) column names the points.</li>
+          <li><b>Blank cell</b> = not analysed. Negative or non-numeric values are rejected, with the line number.</li>
+          <li><b>Unused components</b> (SrO, BaO, SO3, F, Cl, ZrO2 &hellip;) are accepted and excluded.
+            Any other unknown column (e.g. a typo such as Si02) stops the import unless &ldquo;lenient import&rdquo; is ticked.</li>
+          <li>Comma, semicolon or tab separated; text containing commas must be in "double quotes". Save from Excel as <i>CSV UTF-8</i>.</li>
+        </ul>
       </div>
       <div class="muted" style="margin-top:8px">or paste / upload CSV with a header row
         (label, SiO2, TiO2, &hellip;). Quoted fields, semicolon- or tab-separated files are fine.
@@ -360,6 +384,23 @@
   </div>
 </dialog>
 
+<dialog id="dlgAccount" aria-labelledby="accTitle">
+  <div class="dlg-head"><h3 id="accTitle">Your account</h3><button class="dlg-close" data-close aria-label="Close">&times;</button></div>
+  <div class="dlg-body">
+    <div style="display:flex;gap:12px;align-items:center">
+      <img id="accPhoto" alt="" width="44" height="44" style="border-radius:50%;display:none" referrerpolicy="no-referrer">
+      <div><div id="accName" style="font-weight:600"></div><div id="accEmail" class="muted"></div></div>
+    </div>
+    <p class="muted" style="margin-top:12px">Your saved compositions are kept in your account and in this browser, and
+      appear in any browser where you sign in &mdash; including RockMin ID when it uses the same account.</p>
+    <div id="accStatus" class="muted" role="status"></div>
+    <div class="row">
+      <button class="btn ghost" id="accSync">Sync collection now</button>
+      <button class="btn ghost" id="accSignOut">Sign out</button>
+    </div>
+  </div>
+</dialog>
+
 <dialog id="dlgFeedback" aria-labelledby="fbTitle">
   <div class="dlg-head"><h3 id="fbTitle">Feedback &amp; suggestions</h3><button class="dlg-close" data-close aria-label="Close">&times;</button></div>
   <div class="dlg-body">
@@ -449,6 +490,10 @@ Yoder, H. S. & Tilley, C. E. (1962). Origin of basalt magmas: an experimental st
       <ul>
         <li><b>Saved collection, theme and feedback history</b> are stored in this browser's local storage. Clearing site data removes them.</li>
         <li><b>Share links</b> contain the composition in the part of the address after <code>#</code>, which browsers do not send to servers. Untick "include the composition" to share only the diagram choice.</li>
+        <li><b>Signing in is optional.</b> If you sign in with Google, the site operator's Firebase project (the same one RockMin ID
+          uses) receives your Google account's name, email and photo address, and stores your saved compositions under your account so
+          you can reach them from other browsers. Nothing is sent unless you sign in; Google's sign-in code is loaded only when you click
+          &ldquo;Sign in&rdquo;. Signing out stops syncing; compositions already in your account stay there until you delete them.</li>
         <li><b>Feedback</b> is kept in this browser. It is sent to a database only if the site operator has configured one (see <code>config.js</code>); if so, only what you type, your rating, an optional email and, if ticked, the current composition are sent. Submissions cannot be read back through the app.</li>
         <li><b>Social share buttons</b> open the chosen service in a new tab with the text you see; nothing is sent until you post it there.</li>
         <li>No third-party code is loaded: the QR-code library is bundled with the app (qrcodejs 1.0.0, MIT licence).</li>
@@ -463,6 +508,7 @@ Yoder, H. S. & Tilley, C. E. (1962). Origin of basalt magmas: an experimental st
 <script src="datasets.js"></script>
 <script src="ohara.js"></script>
 <script src="csv.js"></script>
+<script src="cloud.js"></script>
 <script src="labels.js"></script>
 <script src="ui.js"></script>
 </body>

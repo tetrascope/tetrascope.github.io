@@ -24,8 +24,11 @@ def sri(path):
 def main():
     with open(os.path.join(VENDOR, "VENDOR.json"), encoding="utf-8") as fh:
         pins = json.load(fh)
-    with open(os.path.join(ROOT, "app", "ui.js"), encoding="utf-8") as fh:
-        ui = fh.read()
+    ui = ""
+    for name in sorted(os.listdir(os.path.join(ROOT, "app"))):
+        if name.endswith(".js") and name not in ("sw.js", "serve.js"):
+            with open(os.path.join(ROOT, "app", name), encoding="utf-8") as fh:
+                ui += fh.read()
     listed = set(pins)
     present = {f for f in os.listdir(VENDOR) if f != "VENDOR.json"}
     errors = []
@@ -40,7 +43,7 @@ def main():
         if got != meta["sri"]:
             errors.append("%s: SHA-512 %s does not match the pin %s" % (name, got, meta["sri"]))
         elif meta["sri"] not in ui:
-            errors.append("%s: app/ui.js does not load it with the pinned integrity value" % name)
+            errors.append("%s: no app script loads it with the pinned integrity value" % name)
         else:
             print("ok  %s  %s %s  %s" % (name, meta["package"], meta["version"], got[:30] + "..."))
     for e in errors:

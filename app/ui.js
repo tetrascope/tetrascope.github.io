@@ -6,6 +6,8 @@
 var O = window.Ohara, CSV = window.OharaCSV, LABELS = window.OharaLabels;
 var DATA = window.OHARA_DATASETS || {};
 var CONFIG = window.OHARA_CONFIG || {};
+var CLOUD = window.OharaCloud;
+var cloudOn = !!(CLOUD && CLOUD.init(CONFIG.firebase));
 var OXIDE_FIELDS = ["SiO2", "TiO2", "Al2O3", "Cr2O3", "Fe2O3", "FeO", "FeO*", "MnO",
                     "NiO", "MgO", "CaO", "Na2O", "K2O", "P2O5"];
 var NUMBER_RE = /^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$/;
@@ -597,11 +599,24 @@ $("loadYT").addEventListener("click", function () {
               "Yoder & Tilley (1962) Table 2");
 });
 $("showDataLabels").addEventListener("change", draw2D);
+$("csvGuideToggle").addEventListener("click", function () {
+  var open = $("csvGuide").classList.toggle("hidden") === false;
+  this.setAttribute("aria-expanded", open ? "true" : "false");
+  this.textContent = open ? "Hide column guide" : "Column guide";
+});
 
 // ------------------------------------------------------------ collection
-function collection() { return store(KEY_COLL) || []; }
+function collection() {
+  var list = store(KEY_COLL) || [];
+  if (CLOUD && CLOUD.ensureIds(list)) store(KEY_COLL, list);
+  return list;
+}
+function cloudUser() { return cloudOn ? CLOUD.currentUser() : null; }
 function renderCollection() {
   var list = collection(), ul = $("collection");
+  $("collectionEmpty").textContent = cloudUser()
+    ? "Saved compositions are kept in this browser and in your account."
+    : "Saved compositions stay in this browser only" + (cloudOn ? " \u2014 sign in to keep them in your account." : ".");
   $("collectionEmpty").classList.toggle("hidden", list.length > 0);
   $("collectionActions").classList.toggle("hidden", list.length === 0);
   ul.innerHTML = list.map(function (it, i) {
@@ -617,6 +632,7 @@ $("collection").addEventListener("click", function (e) {
   } else if (t.dataset.del !== undefined) {
     var gone = list.splice(+t.dataset.del, 1)[0]; store(KEY_COLL, list); renderCollection();
     toast("Removed " + gone.label);
+    if (cloudUser()) CLOUD.deleteSample(gone.id).catch(function (e) { toast("Removed here; could not remove from your account: " + e.message); });
   }
 });
 function applySaved(it) {
@@ -627,9 +643,15 @@ function applySaved(it) {
 $("saveSample").addEventListener("click", function () {
   if (!calculate(true)) return;
   var list = collection(), o = readOptions();
-  list.unshift({ label: o.label, oxides: readOxides(), feRatio: o.feRatio, plagMode: o.plagMode,
-                 savedAt: new Date().toISOString() });
-  store(KEY_COLL, list.slice(0, 200)); renderCollection(); toast("Saved " + o.label);
+  var item = { label: o.label, oxides: readOxides(), feRatio: o.feRatio, plagMode: o.plagMode,
+               savedAt: new Date().toISOString() };
+  if (CLOUD) CLOUD.ensureIds([item]);
+  list.unshift(item);
+  store(KEY_COLL, list.slice(0, 200)); renderCollection();
+  if (cloudUser()) {
+    CLOUD.putSample(item).then(function () { toast("Saved " + o.label + " to your account"); })
+      .catch(function (e) { toast("Saved in this browser; not synced: " + e.message); });
+  } else toast("Saved " + o.label);
 });
 $("plotCollection").addEventListener("click", function () {
   loadRecords(collection().map(function (it) { return { label: it.label, oxides: it.oxides }; }), "my collection");
@@ -903,9 +925,9 @@ $("copyBib").addEventListener("click", function () {
     + "@article{YoderTilley1962,\n  author = {Yoder, H. S. and Tilley, C. E.},\n  title = {Origin of basalt magmas: an experimental study of natural and synthetic rock systems},\n  journal = {Journal of Petrology}, volume = {3}, pages = {342--532}, year = {1962}\n}\n"
     + "@misc{OHaraWorkbench,\n  title = {O'Hara projection workbench, version 0.2.0},\n  note = {Accessed " + TODAY + "}, year = {2026}\n}\n");
 });
-$("privacyCloud").textContent = CONFIG.firebase
+$("privacyCloud").textContent = (cloudOn ? "Google sign-in is available on this site. " : "Google sign-in is not set up on this site. ") + (CONFIG.firebase
   ? "This deployment sends feedback to a cloud database (project " + CONFIG.firebase.projectId + ")."
-  : "This deployment has no cloud database configured: feedback stays in your browser.";
+  : "This deployment has no cloud database configured: feedback stays in your browser.");
 
 // -------------------------------------------------------------- feedback
 var fbState = { category: "feature", rating: 5 };
@@ -934,7 +956,11 @@ $("fbCats").addEventListener("click", function (e) {
   $("fbCats").querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
 });
 $("fbMsg").addEventListener("input", function () { $("fbCount").textContent = this.value.length + " / 3000"; });
-function openFeedback() { paintStars(); renderFbHistory(); $("fbStatus").textContent = ""; openDialog("dlgFeedback"); }
+function openFeedback() {
+  paintStars(); renderFbHistory(); $("fbStatus").textContent = "";
+  if (cloudUser() && !$("fbEmail").value) $("fbEmail").value = cloudUser().email;
+  openDialog("dlgFeedback");
+}
 function fbHistory() { return store(KEY_FB) || []; }
 function renderFbHistory() {
   var list = fbHistory();
@@ -982,6 +1008,7 @@ $("fbForm").addEventListener("submit", function (e) {
               category: fbState.category, rating: Math.max(1, Math.min(5, Math.round(fbState.rating))),
               message: msg.slice(0, 3000), createdAt: new Date().toISOString() };
   if (email) rec.userEmail = email.slice(0, 200);
+  if (cloudUser()) rec.userId = cloudUser().uid;
   var ctx = sampleContext(); if (ctx) rec.sampleContext = ctx;
   $("fbSubmit").disabled = true; $("fbStatus").textContent = "Saving…";
   sendToCloud(rec).then(function (synced) {
@@ -1026,6 +1053,66 @@ $("dlcsv").addEventListener("click", function () {
   });
   download("ohara_coordinates.csv", "text/csv", out.join("\r\n"));
 });
+
+// -------------------------------------------------------------- account
+var GOOGLE_G = $("accountIcon").innerHTML;
+function syncCollection(quiet) {
+  if (!cloudUser()) return Promise.resolve();
+  $("accStatus").textContent = "Syncing\u2026";
+  return CLOUD.sync(collection()).then(function (r) {
+    store(KEY_COLL, r.merged.slice(0, 500)); renderCollection();
+    var msg = "Collection synced: " + r.merged.length + " composition(s)"
+      + (r.uploaded ? ", " + r.uploaded + " uploaded" : "") + (r.downloaded ? ", " + r.downloaded + " added from your account" : "") + ".";
+    $("accStatus").textContent = msg;
+    if (!quiet || r.uploaded || r.downloaded) toast(msg);
+  }).catch(function (e) {
+    $("accStatus").innerHTML = '<span class="bad">' + esc(e.message) + '</span>';
+    toast("Could not sync: " + e.message);
+  });
+}
+function renderAccount(user) {
+  var b = $("btnAccount");
+  b.classList.toggle("hidden", !cloudOn);
+  if (!user) {
+    $("accountIcon").innerHTML = GOOGLE_G; $("accountLabel").textContent = "Sign in";
+    b.title = "Sign in with Google to keep your collection in your account";
+  } else {
+    $("accountIcon").innerHTML = user.photo ? '<img src="' + esc(user.photo) + '" alt="" referrerpolicy="no-referrer">' : GOOGLE_G;
+    $("accountLabel").textContent = (user.name || user.email).split(" ")[0];
+    b.title = "Signed in as " + (user.email || user.name);
+    $("accName").textContent = user.name || ""; $("accEmail").textContent = user.email || "";
+    $("accPhoto").style.display = user.photo ? "block" : "none";
+    if (user.photo) $("accPhoto").src = user.photo;
+  }
+  renderCollection();
+}
+var lastUid = null;
+if (cloudOn) {
+  CLOUD.onChange(function (user) {
+    renderAccount(user);
+    var uid = user ? user.uid : null;
+    if (uid && uid !== lastUid) syncCollection(true);
+    lastUid = uid;
+  });
+}
+function signInError(e) {
+  var code = (e && e.code) || "";
+  if (code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") return;
+  var msg = code === "auth/unauthorized-domain"
+    ? "This site is not yet authorised for Google sign-in (Firebase \u2192 Authentication \u2192 Settings \u2192 Authorised domains)."
+    : (e && e.message) || "Sign-in failed";
+  toast(msg);
+}
+$("btnAccount").addEventListener("click", function () {
+  if (cloudUser()) { $("accStatus").textContent = ""; openDialog("dlgAccount"); return; }
+  var b = this; b.disabled = true; $("accountLabel").textContent = "Signing in\u2026";
+  CLOUD.signIn().catch(signInError).then(function () { b.disabled = false; renderAccount(cloudUser()); });
+});
+$("accSync").addEventListener("click", function () { syncCollection(false); });
+$("accSignOut").addEventListener("click", function () {
+  CLOUD.signOut().then(function () { $("dlgAccount").close(); toast("Signed out. Your collection stays in this browser."); });
+});
+renderAccount(null);
 
 // ------------------------------------------------------------------ PWA
 var deferredInstall = null;

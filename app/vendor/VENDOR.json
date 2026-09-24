@@ -9,5 +9,31 @@
   "retrieved": "2026-09-23",
   "sri": "sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==",
   "sri_checked_against": "https://api.cdnjs.com/libraries/qrcodejs/1.0.0?fields=sri"
+ },
+ "firebase-app-compat-12.19.0.js": {
+  "package": "firebase",
+  "version": "12.19.0",
+  "author": "Google LLC",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/firebase/firebase-js-sdk",
+  "retrieved_from": "https://registry.npmjs.org/firebase/-/firebase-12.19.0.tgz",
+  "retrieved": "2026-09-24",
+  "package_integrity": "sha512-kwXCLcI0ly2lkwygkbuRx6SsX3DSO96355YrWh9SWZ5ncsxK/y5cirn3sY6nZVSiBVE++2nL6Hchzu1EB8uohQ==",
+  "sri_checked_against": "tarball verified against the npm registry dist.integrity above; file hashes computed from the unpacked files",
+  "path_in_package": "package/firebase-app-compat.js",
+  "sri": "sha512-4vhrvql0JRsm7uZqS5fzHvGi7gVUiqTRe0y/kyhsCYkyB7mEWZZBIkBlzW0+LA6wGFRCsxZhGl1IZNP0b852WA=="
+ },
+ "firebase-auth-compat-12.19.0.js": {
+  "package": "firebase",
+  "version": "12.19.0",
+  "author": "Google LLC",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/firebase/firebase-js-sdk",
+  "retrieved_from": "https://registry.npmjs.org/firebase/-/firebase-12.19.0.tgz",
+  "retrieved": "2026-09-24",
+  "package_integrity": "sha512-kwXCLcI0ly2lkwygkbuRx6SsX3DSO96355YrWh9SWZ5ncsxK/y5cirn3sY6nZVSiBVE++2nL6Hchzu1EB8uohQ==",
+  "sri_checked_against": "tarball verified against the npm registry dist.integrity above; file hashes computed from the unpacked files",
+  "path_in_package": "package/firebase-auth-compat.js",
+  "sri": "sha512-ahLV4v/pGu9QcmfbZjdmF00a3HVnWcH9tj/werwQldaqKqyya8QPYONrLoRfPT3BwB1YKEQf+B/1EYGeglNZvA=="
  }
 }

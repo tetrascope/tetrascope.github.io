@@ -2,9 +2,10 @@
  * GENERATED from tools/sw.template.js by tools/build_definitions.py - do not
  * edit app/sw.js by hand. The cache name embeds the package version and a hash
  * of every cached file, so any change to the app invalidates old caches. */
-const CACHE = 'ohara-workbench-0.3.0-ef5e955fc4c5';
+const CACHE = 'ohara-workbench-0.3.0-114ef2ef1b58';
 const SHELL = [
   "./",
+  "./cloud.js",
   "./config.js",
   "./csv.js",
   "./datasets.js",
@@ -17,6 +18,7 @@ const SHELL = [
   "./ohara.js",
   "./tetrascope-icon.svg",
   "./tetrascope-logo.svg",
+  "./tetrascope_template.csv",
   "./ui.js",
   "./vendor/qrcode-1.0.0.min.js"
 ];

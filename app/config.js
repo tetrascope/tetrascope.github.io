@@ -1,15 +1,28 @@
-/* Deployment configuration for the workbench.
+/* Deployment configuration for TetraScope.
  *
- * Feedback is always saved in the user's own browser. To also send it to a
- * cloud database, fill in a Firebase web config below. The workbench then
- * writes to the same `feedback` collection, with the same document schema,
- * as RockMin ID (see RockMin ID's firestore.rules, isValidFeedback), so both
- * apps can share one inbox. Leave `firebase` as null for local-only mode.
+ * appUrl    public address used in share links (null = the current page).
  *
- * Web API keys are not secrets, but the project must be one you control and
- * the key should be domain-restricted in the Google Cloud console.
+ * firebase  null = no cloud features: everything works, collection and
+ *           feedback stay in the visitor's browser, no sign-in button.
+ *
+ *           Fill it in to enable (1) "Sign in with Google" with collection
+ *           sync and (2) a cloud inbox for feedback. Use the web-app config
+ *           of a Firebase project you control - ideally RockMin ID's project,
+ *           so one account works in both apps and saved samples appear in
+ *           both (same collections and document schema as RockMin ID's
+ *           firestore.rules). Setup steps: README, "Google sign-in".
+ *
+ *           Web API keys are not secrets (they are visible in every client),
+ *           but restrict the key to your domains in the Google Cloud console.
  */
 window.OHARA_CONFIG = {
-  appUrl: "https://tetrascope.github.io/app/",  // public URL used in share links; null = current page
-  firebase: null         // e.g. { apiKey: "...", projectId: "...", databaseId: "(default)" }
+  appUrl: "https://tetrascope.github.io/app/",
+  firebase: null
+  // firebase: {
+  //   apiKey: "AIza...",
+  //   authDomain: "your-project.firebaseapp.com",
+  //   projectId: "your-project",
+  //   appId: "1:1234567890:web:abcdef",
+  //   databaseId: "(default)"          // only if you use a named Firestore database
+  // }
 };

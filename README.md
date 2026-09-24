@@ -53,7 +53,10 @@ app/                      the interactive workbench (static files, no build step
   datasets.js               GENERATED from data/*.csv
   csv.js                    RFC 4180 CSV parser
   labels.js                 collision-free label placement
-  config.js                 deployment options (share URL, optional feedback inbox)
+  config.js                 deployment options (share URL; Firebase for Google sign-in,
+                            collection sync and the feedback inbox)
+  cloud.js                  optional Google sign-in and collection sync
+  tetrascope_template.csv   CSV template offered to users
   manual.html               user manual with the scientific background
   vendor/                   bundled qrcodejs 1.0.0 (MIT), hash-pinned in VENDOR.json
   sw.js, manifest.webmanifest, icon.svg   installable offline app
@@ -68,7 +71,7 @@ tools/
   figure_check.py           scores the digitised O'Hara figure points
   sw.template.js            template for app/sw.js (cache name = version + a hash
                             of every cached file, generated)
-tests/                    nine suites, run by run_tests.py (tests/e2e: browser)
+tests/                    ten suites, run by run_tests.py (tests/e2e: browser)
 .github/workflows/ci.yml  CI: tests on Python 3.9-3.13 and Node 18/20/22 (Linux and
                           Windows), stale-asset and vendor-hash checks, Chromium
                           end-to-end job, wheel build + install test, GitHub
@@ -253,7 +256,7 @@ presets have condition numbers below 20.
 
 ## 4. Validation
 
-`python run_tests.py` runs nine suites:
+`python run_tests.py` runs ten suites:
 
 | suite | what it checks |
 | --- | --- |
@@ -263,7 +266,8 @@ presets have condition numbers below 20.
 | `test_parity` | Python vs browser engine: 842 cases (250 random compositions from ultramafic to peralkaline, both feldspar modes, Fe ratios 0/0.15/1 with total-iron input, Table 2, examples, 12 malformed inputs) x 15 projections - every numeric field to 1e-8 and every warning/assumption string identical; generated files not stale |
 | `test_csv_js` | the browser CSV parser against Python's `csv` module, including quoted commas |
 | `test_labels_js` | no label overlaps on crowded diagrams |
-| `test_cli` | one-line errors and exit codes, CSV line numbers, strict and lenient column handling |
+| `test_cli` | one-line errors and exit codes, CSV line numbers, strict and lenient column handling, the CSV template |
+| `test_cloud_js` | sign-in/sync logic: Firestore encoding, RockMin `isValidSavedSample` schema for awkward inputs, merge, SDK pins |
 | `test_figures` | 44 points digitised from O'Hara's Figs 4A, 4C, 5, 9, 10, 11, incl. 11 natural basalts (below), with two negative controls and the documented Fig. 5 discrepancy |
 | `test_e2e` | Chromium end-to-end: first load, manual links, CSV upload (quoted comma), strict headers, share-link round trip, SVG/CSV export, collection across reloads, theme, offline reload with QR (runs when `npm install` has been done) |
 
@@ -371,6 +375,48 @@ read with the same method) and scored immediately.
   draw a QR code); other browsers are untested.
 * The QR library's integrity pin is enforced only over http(s); browsers cannot
   apply subresource integrity to file:// pages.
+
+## CSV template
+
+Users can download `app/tetrascope_template.csv` from the Dataset panel
+("Download CSV template"; a column guide is next to it). It shows one row
+with FeO + Fe2O3, one with total iron only (FeOT), and a mineral, plus
+descriptive columns (label, rock, notes) that are skipped in the calculation.
+`tests/test_cli.py` and the browser tests check that it always imports
+cleanly.
+
+## Google sign-in
+
+Optional. When configured, a **Sign in** button appears in the header.
+Signed-in users keep their saved compositions in their account (synced
+across browsers) and their feedback is attributed to them. It uses Firebase
+Authentication with the Google provider and the **same Firestore layout and
+document schema as RockMin ID** (`users/{uid}/savedSamples`, `feedback`), so
+pointing both apps at one Firebase project gives users one account and one
+collection across both. Until configured, the button is hidden and no Google
+code is loaded; the Firebase SDK (bundled, hash-pinned) is fetched only when
+someone clicks Sign in.
+
+Setup (once, by the site owner):
+
+1. Firebase console -> your project (RockMin ID's, or a new one) -> Project
+   settings -> *Your apps* -> add or pick a **Web app**; copy its `apiKey`,
+   `authDomain`, `projectId` and `appId` into `firebase` in `app/config.js`.
+2. Authentication -> Sign-in method -> enable **Google**.
+3. Authentication -> Settings -> **Authorized domains** -> add
+   `tetrascope.github.io` (and `localhost` for testing).
+4. Firestore: use RockMin ID's `firestore.rules` (they already allow
+   `users/{uid}/savedSamples` for the signed-in owner and create-only
+   `feedback`). A new project needs a Firestore database created first.
+5. Google Cloud console -> APIs & Services -> Credentials -> restrict the
+   web API key to `https://tetrascope.github.io/*` (and your RockMin ID
+   domain if shared).
+6. Commit `app/config.js`, run `python tools/build_definitions.py`, push.
+
+Saved samples written by TetraScope carry `sampleType: "custom"`, the tag
+`tetrascope`, oxides as numbers (`FeOT` for total iron), and TetraScope's
+options in a `tetrascope` field that RockMin's rules permit; RockMin's own
+samples are read back into TetraScope's collection.
 
 ## Deployment
 

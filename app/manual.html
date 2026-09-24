@@ -387,10 +387,15 @@ malformed input; browser workflows (CSV upload, sharing, export, collection, off
 <!-- ============================================================ 14 -->
 <h2 id="tools">14. Datasets, sharing and export</h2>
 <ul>
-  <li><b>CSV</b>: one analysis per row, header row of oxide names; quoted fields and semicolon- or tab-separated files work. Rows that
-      fail are listed with their line numbers; the rest are plotted.</li>
+  <li><b>CSV</b>: start from the <a href="tetrascope_template.csv" download>CSV template</a> (also under <i>Dataset &rarr; Download CSV
+      template</i>). One analysis per row, header row of oxide names in wt%; a <code>label</code> column names the points;
+      descriptive columns (rock, locality, notes, total &hellip;) are ignored; give either FeO + Fe<sub>2</sub>O<sub>3</sub> or total iron
+      as <code>FeOT</code>; blank = not analysed. Quoted fields and semicolon- or tab-separated files work. Rows that fail are listed
+      with their line numbers; the rest are plotted.</li>
   <li><b>Built-in data</b>: Yoder &amp; Tilley's Table 2 and a set of reference compositions and end members.</li>
-  <li><b>My collection</b> keeps compositions in this browser; export it as CSV.</li>
+  <li><b>My collection</b> keeps compositions in this browser; export it as CSV. Where the site offers it, <b>Sign in</b>
+      with a Google account keeps the collection in your account as well, so it follows you to other browsers (and to
+      RockMin ID if it uses the same account). Signing in is optional; see Docs &rarr; Privacy for what it shares.</li>
   <li><b>Share</b> creates a link containing the composition, options and diagram after the <code>#</code>, which browsers do not send to
       servers. Untick "include the composition" to share only the diagram choice.</li>
   <li><b>Export</b>: SVG and PNG of the diagram; CSV of coordinates, condition numbers and groups.</li>

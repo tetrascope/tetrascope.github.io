@@ -11,7 +11,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SUITES = ["test_validation", "test_published", "test_inputs", "test_parity",
-          "test_csv_js", "test_labels_js", "test_cli", "test_figures", "test_e2e"]
+          "test_csv_js", "test_labels_js", "test_cli", "test_figures", "test_cloud_js", "test_e2e"]
 
 
 def main():

@@ -66,6 +66,19 @@ def test_csv_unknown_header_is_one_clear_error():
     assert rc == 0 and "ignored unrecognised column 'Si02'" in out
 
 
+def test_csv_template_is_valid():
+    """The template users download must import cleanly: strict headers,
+    every row computed, no warnings about the analyses."""
+    rc, out, err = cli("--csv", "app/tetrascope_template.csv",
+                       "--projection", "cmas_ol_CS_MS_A", "--json")
+    assert rc == 0 and not err, err
+    rows = json.loads(out)
+    assert len(rows) == 3
+    for r in rows:
+        assert not r["projections"][0]["warnings"], r["label"]
+        assert not any(a.startswith("WARNING") for a in r["assumptions"]), r["label"]
+
+
 def test_table2_with_ignored_columns():
     rc, out, _ = cli("--csv", "data/yoder_tilley_1962_table2.csv",
                      "--ignore-columns", "n_*", "--projection", "cmas_ol_CS_MS_A",
