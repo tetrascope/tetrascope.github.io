@@ -161,7 +161,7 @@ def main(argv=None):
     ap.add_argument("--projection", action="append", default=[],
                     help="projection id (repeatable); default: all valid ones")
     ap.add_argument("--fe-ratio", type=float, default=0.15,
-                    help="molar Fe2O3/(Fe2O3+FeO) when only total Fe is given")
+                    help="atomic Fe3+/total Fe when only total Fe is given")
     ap.add_argument("--plag-mode", choices=("plag", "ab"), default="plag",
                     help="basalt-tetrahedron treatment of feldspar")
     ap.add_argument("--ignore-columns", default="",

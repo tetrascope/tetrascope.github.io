@@ -198,7 +198,7 @@
       <input id="label" value="sample 1" maxlength="120">
       <div class="grid" id="oxgrid" style="margin-top:8px"></div>
       <div class="row">
-        <div><label for="feratio">Fe<sub>2</sub>O<sub>3</sub>/&Sigma;Fe, molar (used only with total Fe)</label>
+        <div><label for="feratio">Fe<sup>3+</sup>/&Sigma;Fe, atomic (used only with total Fe)</label>
           <input id="feratio" type="number" step="0.01" min="0" max="1" value="0.15"></div>
       </div>
       <div class="row">
@@ -260,7 +260,7 @@
           <li><b>Oxide columns</b> (any order, only the ones you have): SiO2, TiO2, Al2O3, Cr2O3, Fe2O3, FeO, MnO, NiO,
             MgO, CaO, Na2O, K2O, P2O5, H2O, CO2. Names are not case-sensitive.</li>
           <li><b>Iron</b>: either FeO and Fe2O3, <i>or</i> total iron as <b>FeOT</b> (also FeO*, Fe2O3T) &mdash; not both in one row.
-            Total iron is split with the Fe<sub>2</sub>O<sub>3</sub>/&Sigma;Fe ratio set above.</li>
+            Total iron is split with the Fe<sup>3+</sup>/&Sigma;Fe ratio set above.</li>
           <li><b>Descriptive columns</b> are allowed and ignored in the calculation: label, sample, name, id, rock, locality,
             source, reference, notes, total, &hellip; The <b>label</b> (or sample / name / id) column names the points.</li>
           <li><b>Blank cell</b> = not analysed. Negative or non-numeric values are rejected, with the line number.</li>
@@ -447,7 +447,7 @@
         the CIPW norm, classification, validation against Yoder &amp; Tilley's Table 2 and O'Hara's own figures, and good practice.</p>
       <h4>1. Enter a composition</h4>
       <p>Type oxide weight per cent (or load an example / a Table 2 analysis). Give FeO and Fe<sub>2</sub>O<sub>3</sub>
-        separately, or total iron as FeO* &mdash; then the Fe<sub>2</sub>O<sub>3</sub>/&Sigma;Fe ratio splits it.
+        separately, or total iron as FeO* &mdash; then the Fe<sup>3+</sup>/&Sigma;Fe ratio splits it.
         Negative, non-numeric or non-finite values are rejected; a total outside 97&ndash;102 wt% is accepted with a warning.</p>
       <h4>2. Read where it sits</h4>
       <p>The composition is reduced to O'Hara's C, M, A, S components and to the Di&ndash;Ol&ndash;Ne&ndash;Qz

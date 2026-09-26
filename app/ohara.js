@@ -203,7 +203,7 @@
   function parseOxides(raw, feRatio, lenient) {
     if (feRatio === undefined) feRatio = 0.15;
     if (typeof feRatio !== "number" || !isFinite(feRatio) || feRatio < 0 || feRatio > 1)
-      throw InputError("Fe2O3/(Fe2O3+FeO) ratio must be a number between 0 and 1 (got " + feRatio + ")");
+      throw InputError("Fe3+/total Fe ratio must be a number between 0 and 1 (got " + feRatio + ")");
     var ox = {}, notes = [], feTotal = null, splitIron = false;
     OXIDES.forEach(function (k) { ox[k] = 0; });
     Object.keys(raw).forEach(function (key) {
@@ -237,7 +237,7 @@
       var nTot = feoTot / MW.FeO, nFe3 = nTot * feRatio;
       ox.Fe2O3 += nFe3 / 2 * MW.Fe2O3;
       ox.FeO += (nTot - nFe3) * MW.FeO;
-      notes.push("total iron split with molar Fe2O3/(Fe2O3+FeO) = " + feRatio.toFixed(3)
+      notes.push("total iron split with atomic Fe3+/total Fe = " + feRatio.toFixed(3)
         + "; affects A (via Fe2O3) and M (via FeO)");
     }
     var anhydrous = 0;

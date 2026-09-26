@@ -94,7 +94,7 @@ the science behind them, what the program computes, and how far its results have
 <h2 id="start">1. Quick start</h2>
 <ol>
   <li><b>Enter an analysis</b> in weight per cent oxides (or load an example, or an analysis from Yoder &amp; Tilley's Table 2).
-      Give FeO and Fe<sub>2</sub>O<sub>3</sub> separately if you have them; otherwise enter total iron as FeO* and choose the Fe<sub>2</sub>O<sub>3</sub>/&Sigma;Fe ratio.</li>
+      Give FeO and Fe<sub>2</sub>O<sub>3</sub> separately if you have them; otherwise enter total iron as FeO* and choose the Fe<sup>3+</sup>/&Sigma;Fe ratio.</li>
   <li><b>Read where it sits</b> (right-hand panel): its Yoder &amp; Tilley normative group, its CMAS subvolume, and which side of each dividing plane it lies on.</li>
   <li><b>Choose a projection</b>: a preset reproducing one of O'Hara's figures, or your own (one projection phase and three target vertices for a triangle; two phases and two vertices for a binary section).</li>
   <li><b>Read the result</b>: weight-per-cent coordinates, the plotted position, the amount of the projection phase added or removed, warnings, and every assumption applied.</li>
@@ -321,7 +321,7 @@ they may not, and the difference is informative.</p>
       columns (label, rock, locality, total, &hellip;) are skipped. "Lenient import" ignores unknown columns deliberately.</li>
   <li><b>Values</b> must be finite, non-negative numbers; negative, non-numeric and infinite values are rejected with the oxide named.</li>
   <li><b>Totals</b> outside 97&ndash;102 wt% (anhydrous) are accepted with a warning: all calculations use ratios.</li>
-  <li><b>Iron.</b> With total iron, the Fe<sub>2</sub>O<sub>3</sub>/&Sigma;Fe ratio (molar, 0&ndash;1; default 0.15) splits it. The choice moves
+  <li><b>Iron.</b> With total iron, the Fe<sup>3+</sup>/&Sigma;Fe ratio (atomic, 0&ndash;1; default 0.15) splits it. The choice moves
       points: Fe<sub>2</sub>O<sub>3</sub> goes to A and FeO to M in CMAS, and magnetite in the norm consumes FeO.</li>
   <li><b>Every assumption is listed</b> with the result (e.g. "albite recast as the equivalent weight of anorthite",
       "normative hypersthene recast as olivine + silica").</li>
@@ -377,7 +377,7 @@ malformed input; browser workflows (CSV upload, sharing, export, collection, off
       are the safest comparison with experiments.</li>
   <li><b>Alteration.</b> Weathering, spilitisation and high LOI change Na, K, Ca and the iron oxidation state; the normative group
       of an altered basalt can be spurious.</li>
-  <li><b>Iron oxidation.</b> Report the Fe<sub>2</sub>O<sub>3</sub>/&Sigma;Fe you used; it can move a composition across the plane of silica saturation.</li>
+  <li><b>Iron oxidation.</b> Report the Fe<sup>3+</sup>/&Sigma;Fe you used; it can move a composition across the plane of silica saturation.</li>
   <li><b>Pressure.</b> Boundaries shift strongly with pressure (&sect;4); compare with experiments at the relevant pressure.</li>
   <li><b>Near a plane,</b> treat the side as uncertain: an analytical error of a few tenths of a per cent in SiO<sub>2</sub> or Na<sub>2</sub>O can
       move a composition across it.</li>

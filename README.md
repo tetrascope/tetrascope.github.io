@@ -191,7 +191,7 @@ checkbox, which ignores unknown columns and lists them in the assumptions.
 
 Blank values are ignored. Every other value must be a finite, non-negative
 number in plain decimal/scientific notation; negative, `NaN`, `Infinity`, hex
-and text values are rejected with a message naming the oxide. The Fe2O3/ΣFe
+and text values are rejected with a message naming the oxide. The atomic Fe3+/ΣFe
 ratio (used only when total iron is given) must lie in 0-1. Total iron cannot be
 combined with FeO/Fe2O3 in one analysis. An analysis with no non-volatile oxide
 is rejected; an anhydrous total outside 97-102 wt% is accepted with a warning.
@@ -267,7 +267,7 @@ presets have condition numbers below 20.
 | `test_validation` | the CMAS reduction and projected positions against hand calculations from mineral stoichiometry (e.g. anorthite from olivine at CS 27.73 / MS 47.93 / A 24.34; the plane CS-MS-A seen edge-on from enstatite, O'Hara Fig.10) |
 | `test_published` | **Yoder & Tilley (1962) Table 2** and **Tilley, Yoder & Schairer (1963, 1964)**: transcriptions reproduce every printed total; the CIPW norm matches the printed norms; normative groups match; per-cell provenance is consistent |
 | `test_inputs` | input rejection, phosphate-rich and peralkaline inputs never give negative minerals, silica mass balance through the deficiency cascade, scale invariance, coplanar and near-coplanar projections |
-| `test_parity` | Python vs browser engine: 842 cases (250 random compositions from ultramafic to peralkaline, both feldspar modes, Fe ratios 0/0.15/1 with total-iron input, Table 2, examples, 12 malformed inputs) x 15 projections - every numeric field to 1e-8 and every warning/assumption string identical; generated files not stale |
+| `test_parity` | Python vs browser engine: 848 cases (250 random compositions from ultramafic to peralkaline, both feldspar modes, Fe ratios 0/0.15/1 with total-iron input, Table 2, examples, 12 malformed inputs) x 15 projections - every numeric field to 1e-8 and every warning/assumption string identical; generated files not stale |
 | `test_csv_js` | the browser CSV parser against Python's `csv` module, including quoted commas |
 | `test_labels_js` | no label overlaps on crowded diagrams |
 | `test_cli` | one-line errors and exit codes, CSV line numbers, strict and lenient column handling, the CSV template |
@@ -288,7 +288,7 @@ was under-weighted); both are fixed and covered by tests. Now:
 
 * alkali basalts 18-20 and the olivine nephelinite 24 match to within 0.5 wt%
   in every mineral, including Y&T's larnite and kalsilite;
-* for 21 of the 25 analyses the largest difference in any mineral is below
+* for 22 of the 25 analyses the largest difference in any mineral is below
   0.8 wt%. The largest residuals are in the Di-Hy-Ol split of analyses 15
   (1.39 wt%), 23 (0.92) and 14 (0.85). Rounding molecular proportions to three
   decimals as in 1962 (`cipw_norm(..., mol_round=3)`) does not remove them, so
@@ -368,7 +368,7 @@ read with the same method) and scored immediately.
 
 * CMAS treats all iron as MgO, so Fe/Mg fractionation is invisible in CMAS
   diagrams by construction.
-* With total iron the Fe2O3/ΣFe ratio is a choice (default 0.15 molar) and moves
+* With total iron the atomic Fe3+/ΣFe ratio is a choice (default 0.15) and moves
   the point; the value used is printed with every result.
 * The CIPW norm does not compute acmite, sodium metasilicate, sphene/perovskite
   or carbonate/sulphide minerals; such components are left unallocated with a

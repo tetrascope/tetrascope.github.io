@@ -112,7 +112,7 @@ def parse_oxides(raw, fe_ratio=0.15, lenient=False):
         otherwise silently drop an oxide - unless lenient=True, when it is
         ignored and reported;
       * every other value must be a finite, non-negative number;
-      * `fe_ratio` (molar Fe2O3/(Fe2O3+FeO), used only for total-iron input)
+      * `fe_ratio` (atomic Fe3+/total Fe, used only for total-iron input)
         must be a finite number between 0 and 1;
       * total iron (FeO*, FeOT, Fe2O3T) may not be combined with FeO or
         Fe2O3 in the same analysis;
@@ -123,7 +123,7 @@ def parse_oxides(raw, fe_ratio=0.15, lenient=False):
     """
     if not isinstance(fe_ratio, (int, float)) or isinstance(fe_ratio, bool) \
             or not math.isfinite(fe_ratio) or not 0.0 <= fe_ratio <= 1.0:
-        raise InputError("Fe2O3/(Fe2O3+FeO) ratio must be a number between 0 "
+        raise InputError("Fe3+/total Fe ratio must be a number between 0 "
                          "and 1 (got %r)" % (fe_ratio,))
     notes = []
     ox = {k: 0.0 for k in OXIDES}
@@ -168,7 +168,7 @@ def parse_oxides(raw, fe_ratio=0.15, lenient=False):
         n_fe3 = n_tot * fe_ratio
         ox["Fe2O3"] += n_fe3 / 2.0 * MW["Fe2O3"]
         ox["FeO"] += (n_tot - n_fe3) * MW["FeO"]
-        notes.append("total iron split with molar Fe2O3/(Fe2O3+FeO) = %.3f; "
+        notes.append("total iron split with atomic Fe3+/total Fe = %.3f; "
                      "affects A (via Fe2O3) and M (via FeO)" % fe_ratio)
 
     anhydrous = sum(v for k, v in ox.items() if k not in VOLATILES)
