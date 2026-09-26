@@ -435,8 +435,8 @@ run `python tools/build_definitions.py` and commit the regenerated
 Please cite the original sources of the method (O'Hara 1968; Yoder & Tilley
 1962) and this implementation:
 
-> Tiwari, K. (2026). TetraScope: O'Hara projection workbench (version 0.3.0)
-> [Software]. Zenodo. <https://doi.org/10.5281/zenodo.22930792>
+> Tiwari, K. (2026). TetraScope: O'Hara projection workbench (version 0.3.1)
+> [Software]. Zenodo. <https://doi.org/10.5281/zenodo.22930791>
 
 To cite all versions, use the concept DOI
 [10.5281/zenodo.22930791](https://doi.org/10.5281/zenodo.22930791), which

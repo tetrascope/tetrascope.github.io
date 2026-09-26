@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ohara-projection"
-version = "0.3.0"
+version = "0.3.1"
 description = "O'Hara (1968) CMAS and Yoder & Tilley (1962) basalt-tetrahedron projections"
 readme = "README.md"
 license = {text = "MIT"}

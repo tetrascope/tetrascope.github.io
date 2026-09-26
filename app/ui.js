@@ -915,8 +915,8 @@ function showDoc(name) {
 document.querySelectorAll("[data-doc]").forEach(function (b) { b.addEventListener("click", function () { showDoc(b.dataset.doc); }); });
 var TODAY = new Date().toISOString().slice(0, 10);
 // keep TOOL_VERSION equal to pyproject.toml (tools/build_definitions.py checks it);
-// TOOL_DOI is the Zenodo DOI of that version (the all-versions DOI is in index.html)
-var TOOL_VERSION = "0.3.0", TOOL_DOI = "10.5281/zenodo.22930792";
+// TOOL_DOI is the Zenodo concept DOI, which resolves to the latest version
+var TOOL_VERSION = "0.3.1", TOOL_DOI = "10.5281/zenodo.22930791";
 var TOOL_CITE = "Tiwari, K. (2026). TetraScope: O'Hara projection workbench (version " + TOOL_VERSION + ") [Software]. Zenodo. https://doi.org/" + TOOL_DOI;
 $("citeTool").textContent = TOOL_CITE;
 $("copyCite").addEventListener("click", function () {
