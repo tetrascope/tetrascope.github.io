@@ -30,7 +30,7 @@
  },
  "transcription": {
   "date": "2026-09-23",
-  "by": "Claude (AI assistant), for K. Tiwari",
+  "by": "K. Tiwari (AI-assisted transcription)",
   "method": "archive.org PDF pages rendered at 200 dpi with PyMuPDF and read from the images",
   "verification": "every analysis reproduces its printed total and every norm its printed norm total (tests/test_published.py)"
  }
