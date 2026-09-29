@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://tetrascope.github.io/sitemap.xml
